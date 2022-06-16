@@ -1,0 +1,80 @@
+/* ................Auth.......... */
+.auth-card{
+    box-shadow: 2px 2px 4px #333, -2px -2px 2px #ddd;
+}
+
+.auth-card .card-header{
+    background-color: #d63384;
+    color: #fff;
+}
+
+.btn-login{
+    background-color: #d63384;
+    color: #fff;
+    box-shadow: 2px 2px 4px #333, -2px -2px 2px #ddd;
+}
+
+.btn-login:hover{
+    background-color: #c40169;
+    color: #fff;
+}
+
+/* ....................Footer................... */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    color: #d63384;
+  }
+
+/* ................. Dashboard............... */
+
+.card-title{
+    background-color: #c40169 !important;
+    color: #fff;
+    border-radius: 10px 10px 0 0 !important;
+    overflow: hidden;
+    box-shadow: 1px 1px 4px #333;
+}
+
+.icon{
+    font-size: 26px;
+    padding-top: 14px;
+    color: #fff;
+}
+
+a{
+    text-decoration: none;
+}
+
+.hover-card:hover{
+    color: red;
+    transition: 0.3s;
+    transform: scale(1.1,1.1);
+}
+
+/* ..................Side bar */
+.navbar-vertical .navbar-nav>.nav-item .nav-link.active{
+    background-color: #c40169 !important;
+}
+
+/* ..........Customer................ */
+.btn{
+    text-transform: capitalize;
+    margin-bottom: 0px !important;
+    box-shadow: 1px 1px 4px #fff;
+}
+
+.btn-sm, .btn-group-sm > .btn{
+    padding: 8px !important;
+    font-size: 14px !important;
+}
+
+.form-control{
+    appearance: auto;
+}
+
+/* .............Datatable .................. */
+.table> :not(:last-child)> :last-child>* {
+    border-bottom-color: #333 !important;
+}
