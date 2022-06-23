@@ -14,6 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('permission:medical-list-category', ['only' => ['index']]);
+    }
+
     public function index()
     {
         $categories = Category::all();

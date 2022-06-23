@@ -7,7 +7,7 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
             target="_blank">
             <img src="{{ asset('icons/medicine.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">M S</span>
+            <span class="ms-1 font-weight-bold text-white">NEO</span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -38,7 +38,40 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="./pages/virtual-reality.html">
+                <a class="nav-link text-white @yield('expired-medicallist-active')" href="{{ route('expiredList') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Expired Medical Lists</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @yield('qtyList-active')" href="{{ route('qtyList') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Qty Warning Medical Lists</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @yield('medicalorder-active')" href="{{ route('orders.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Medical Order</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white @yield('orderlist-active')" href="{{ route('order-lists') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Order List</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white @yield('usermanagement-active')" href="{{ route('users.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-address-book"></i>
                     </div>

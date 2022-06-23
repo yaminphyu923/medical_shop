@@ -13,6 +13,10 @@ class WarningQuantityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('permission:medical-list-warning-quantity', ['only' => ['index']]);
+    }
     public function index()
     {
         $warning_quantities = WarningQuantity::all();

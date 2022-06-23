@@ -29,7 +29,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
-<body class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show bg-gray-200">
     @include('backend.sidebar')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
@@ -90,8 +90,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -201,6 +200,7 @@
     <script src="{{ asset('assets/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/custom.js') }}"></script> --}}
     <script src="{{ asset('assets/fontawesome/js/all.min.js') }}"></script>
     <script src="{{ asset('assets/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -244,6 +244,15 @@
             placeholder: "Select an Option",
             allowClear: true
         });
+
+        // $('.print').on('click', function() {
+        //     $('.print-btn').hide();
+        //     window.print();
+        // });
+
+        // $('#page-top').on('mouseover', function() {
+        //     $('.print-btn').show();
+        // })
     </script>
 
     <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.2') }}"></script>

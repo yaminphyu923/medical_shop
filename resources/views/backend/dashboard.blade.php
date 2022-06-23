@@ -69,7 +69,8 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0 text-end"><span class="badge bg-warning text-dark">{{ number_format(500000) }}
+                            <p class="mb-0 text-end"><span
+                                    class="badge bg-warning text-dark">{{ number_format($user_count) }}
                                 </span></p>
                         </div>
                     </div>

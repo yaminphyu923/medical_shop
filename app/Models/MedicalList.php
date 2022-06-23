@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Unit;
+use App\Models\Refill;
 use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +17,17 @@ class MedicalList extends Model
     protected $fillable=[
         "name",
         "qty",
+        "total_qty",
+        "showqty",
         "start_date",
         "category_id",
         "price",
+        "unit_id",
         "expired_date",
         "customer_id",
         "last_remaining",
         "last_remaining_qty",
+        "photo",
         "note"
     ];
 
@@ -33,5 +39,14 @@ class MedicalList extends Model
     public function Customer()
     {
         return $this->belongsTo(Customer::class,'customer_id','id');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class,'user_id','id');
+    }
+
+    public function refills(){
+        return $this->hasMany(Refill::class);
     }
 }

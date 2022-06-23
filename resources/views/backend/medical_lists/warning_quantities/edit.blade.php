@@ -11,9 +11,9 @@
                         <h5 class="text-light"><b>Warning Quantity</b></h5>
 
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            {{-- <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"><i class="fas fa-plus-circle"></i>
-                                <b>Create</b></button>&nbsp;
+                                <b>Create</b></button>&nbsp; --}}
 
                             <a href="{{ route('medical-lists.index') }}">
                                 <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>

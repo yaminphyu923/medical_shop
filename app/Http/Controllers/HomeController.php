@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Customer;
 use App\Models\MedicalList;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class HomeController extends Controller
     {
         $customer_count = Customer::count();
         $medicallist_count = MedicalList::count();
-        return view('backend.dashboard',compact('customer_count','medicallist_count'));
+        $user_count = User::count();
+        return view('backend.dashboard',compact('customer_count','medicallist_count','user_count'));
     }
 }

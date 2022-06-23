@@ -53,6 +53,17 @@
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
+                                        <label for="qty" class="col-sm-3 m-0 text-end">Total Quantity:</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control input-sm" id="qty"
+                                                name="qty" placeholder="Enter Quantity"
+                                                value="{{ $medical_list->total_qty }}" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
                                         <label for="start_date" class="col-sm-3 m-0 text-end">Start Date:</label>
                                         <div class="col-sm-8">
                                             <input type="date" class="form-control input-sm" id="start_date"

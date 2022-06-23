@@ -78,3 +78,83 @@ a{
 .table> :not(:last-child)> :last-child>* {
     border-bottom-color: #333 !important;
 }
+
+
+/* ............. Order ...................... */
+
+/* .search-card{
+    position: fixed;
+    z-index: 1;
+} */
+
+.auto-height{
+    height: 88vh;
+    overflow: auto;
+}
+
+.order-list{
+    height: 88vh;
+    overflow: auto;
+}
+
+.btn-radius{
+    border-radius: 25%;
+    font-weight: bold;
+}
+
+.btn-radius:hover{
+    border-radius: 25%;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #333;
+}
+
+/* .order-card{
+    width: 250px;
+    height: 180px;
+} */
+
+.card-body{
+    padding: 0px !important;
+}
+
+.order-photo{
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0px auto;
+}
+
+.order-hover{
+    /* background-color: #f7d9de; */
+    box-shadow: 2px 2px 2px #c40169;
+}
+
+.order-hover:hover{
+    transition: 0.5s;
+    transform: scaleX(0.9);
+    background-color: pink;
+    box-shadow: 4px 4px 8px #c40169;
+}
+
+.btn-order:hover{
+    transition: 0.3s;
+    transform: scaleX(1.1);
+    box-shadow: 2px 2px 4px #c40169;
+}
+
+/* ............. Select 2............. */
+.select2-container .select2-selection--single{
+    height: 35px !important;
+}
+
+/* expired medical list */
+
+.bg-yellow{
+    background-color: #f7f2b9 !important;
+}
+
+.bg-red{
+    background-color: #f9bbbb !important;
+}
+
+
