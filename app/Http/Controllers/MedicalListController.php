@@ -6,11 +6,13 @@ use Image;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Unit;
+use App\Models\Group;
 use App\Models\Refill;
 use App\Models\Category;
 use App\Models\MedicalList;
 use Illuminate\Http\Request;
 use App\Models\WarningQuantity;
+use App\Models\MedicalListPrice;
 use App\Exports\MedicalListsExport;
 use App\Imports\MedicalListsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,6 +35,8 @@ class MedicalListController extends Controller
          $this->middleware('permission:medical-list-excel-export', ['only' => ['export']]);
          $this->middleware('permission:medical-list-excel-import', ['only' => ['import']]);
          $this->middleware('permission:medical-list-refill', ['only' => ['refill']]);
+         $this->middleware('permission:medical-list-expire',['only'=>['expiredList']]);
+         $this->middleware('permission:medical-list-quantity',['only'=>['qtyList']]);
     }
 
     public function index(Request $request)
@@ -135,7 +139,8 @@ class MedicalListController extends Controller
     {
         $categories = Category::all();
         $units = Unit::all();
-        return view('backend.medical_lists.create',compact('categories','units'));
+        $groups = Group::all();
+        return view('backend.medical_lists.create',compact('categories','units','groups'));
     }
 
     /**
@@ -146,7 +151,7 @@ class MedicalListController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        //dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
@@ -176,13 +181,25 @@ class MedicalListController extends Controller
             $medical_list->total_qty = $request->qty;
             $medical_list->start_date = $request->start_date;
             $medical_list->category_id = $request->category_id;
-            $medical_list['price'] = implode(',',$request->price);
-            $medical_list['unit_id'] = implode(',',$request->unit_id);
+            $medical_list->group_id = $request->group_id;
+            $medical_list->price = $request->price;
             $medical_list->expired_date = $request->expired_date;
             $medical_list->last_remaining = $request->last_remaining;
             $medical_list->last_remaining_qty = $request->last_remaining_qty;
             $medical_list->note = $request->note;
             $medical_list->save();
+
+            // if($medical_list)
+            // {
+            //     for($i=0;$i<count($request['price']);$i++)
+            //     {
+            //         $medical_list_price = new MedicalListPrice;
+            //         $medical_list_price->medical_list_id = $medical_list->id;
+            //         $medical_list_price->price = $request['price'][$i];
+            //         $medical_list_price->unit = $request['unit_id'][$i];
+            //         $medical_list_price->save();
+            //     }
+            // }
 
             return redirect()->back()
                 ->with('success', 'Created successfully!');
@@ -214,7 +231,10 @@ class MedicalListController extends Controller
     {
         $medical_list = MedicalList::find($id);
         $categories = Category::all();
-        return view('backend.medical_lists.edit',compact('medical_list','categories'));
+        $groups = Group::all();
+        $medical_list_prices = MedicalListPrice::where('medical_list_id',$id)->get();
+        // dd($medical_list_prices);
+        return view('backend.medical_lists.edit',compact('medical_list','categories','medical_list_prices','groups'));
     }
 
     /**
@@ -244,7 +264,7 @@ class MedicalListController extends Controller
                 $medical_list->total_qty = $request->qty >= 0 ? $request->qty + (int)$medical_list->total_qty + $request->refill_qty : $medical_list->total_qty + $request->refill_qty;
                 $medical_list->start_date = $request->start_date;
                 $medical_list->category_id = $request->category_id;
-                $medical_list->price = $request->price;
+                $medical_list->group_id = $request->group_id;
                 $medical_list->expired_date = $request->expired_date;
                 $medical_list->note = $request->note;
                 $medical_list->save();
@@ -284,12 +304,26 @@ class MedicalListController extends Controller
                 // $medical_list->total_qty = $request->total_qty;
                 $medical_list->start_date = $request->start_date;
                 $medical_list->category_id = $request->category_id;
+                $medical_list->group_id = $request->group_id;
                 $medical_list->price = $request->price;
                 $medical_list->expired_date = $request->expired_date;
                 $medical_list->last_remaining = $request->last_remaining;
                 $medical_list->last_remaining_qty = $request->last_remaining_qty;
                 $medical_list->note = $request->note;
                 $medical_list->save();
+
+                // if(isset($request['price'])){
+                //     if(count($request['price'])>0){
+                //         for($i=0;$i<count($request['price']);$i++){
+                //             if(isset($request['medical_list_priceid'][$i])){
+                //                 $additional['price'] = $request['price'][$i];
+                //                 $additional['unit'] = $request['unit_id'][$i];
+
+                //                 $update_additional = MedicalListPrice::where('id',$request['medical_list_priceid'][$i])->update($additional);
+                //             }
+                //         }
+                //     }
+                // }
 
                 return redirect()->back()->with('success', 'Updated successfully!');
             }
@@ -385,7 +419,7 @@ class MedicalListController extends Controller
     }
 
     public function unitPlus(){
-        $units = Unit::latest('id')->select('id','unit as text')->get();
+        $units = Unit::latest('id')->select('unit as id','unit as text')->get();
         return response()->json([
             'status' => 'success',
             'units' => $units,

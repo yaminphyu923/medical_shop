@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\RefillController;
@@ -80,6 +81,8 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::resource('/units',UnitController::class);
 
+    Route::resource('/groups',GroupController::class);
+
     // Route::get('/searchRefillDate/{id}',[MedicalListController::class,'searchRefillDate'])->name('searchRefillDate');
 
     Route::resource('/refills',RefillController::class);
@@ -105,4 +108,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::resource('roles', RolesController::class);
 
     Route::resource('permissions', PermissionsController::class);
+
+    Route::post('check-out',[OrderController::class,'checkout'])->name('check-out');
+
+    Route::get('/search-date',[OrderController::class,'searchDate'])->name('search-date');
+
 });

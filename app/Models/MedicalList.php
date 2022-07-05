@@ -21,6 +21,7 @@ class MedicalList extends Model
         "showqty",
         "start_date",
         "category_id",
+        "group_id",
         "price",
         "unit_id",
         "expired_date",

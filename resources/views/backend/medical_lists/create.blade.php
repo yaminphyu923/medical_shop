@@ -11,10 +11,10 @@
                         <h5 class="text-light"><b>Create Medical List</b></h5>
 
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('units.index') }}">
+                            {{-- <a href="{{ route('units.index') }}">
                                 <button type="button" class="btn btn-sm btn-info"><i class="fas fa-file"></i>
                                     <b>Unit</b></button>&nbsp;
-                            </a>
+                            </a> --}}
                             <a href="{{ route('medical-lists.index') }}">
                                 <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>
@@ -83,6 +83,20 @@
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
+                                        <label for="category_id" class="col-sm-3 m-0 text-end">Group:</label>
+                                        <div class="col-sm-8">
+                                            <select name="group_id" id="group_id" class="myselect form-control">
+                                                <option>Select Option...</option>
+                                                @foreach ($groups as $group)
+                                                    <option value="{{ $group->id }}">{{ $group->group }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
                                         <label for="expired_date" class="col-sm-3 m-0 text-end">Expired Date:</label>
                                         <div class="col-sm-8">
                                             <input type="date" class="form-control input-sm" id="expired_date"
@@ -98,6 +112,17 @@
                                         <div class="col-sm-8">
                                             <input type="file" class="form-control input-sm" id="photo"
                                                 name="photo">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
+                                        <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-sm" id="price"
+                                                name="price" placeholder="Enter Price" value="{{ old('price') }}"
+                                                autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +160,7 @@
                                     </div>
                                 </div>
 
-                                <div class="price-list">
+                                {{-- <div class="price-list">
                                     <div class="col-sm-12 my-1">
                                         <div class="form-group row">
                                             <label for="price" class="col-sm-2 m-0 text-end">Price:</label>
@@ -162,7 +187,7 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
@@ -203,7 +228,7 @@
                 type: "GET",
 
                 success: function(res) {
-                    console.log(res);
+                    //console.log(res);
 
                     $(".price-list").append(
                         '<div class="mt-1 row row_' + row + '">' +

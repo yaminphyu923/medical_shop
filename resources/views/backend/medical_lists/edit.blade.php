@@ -3,9 +3,9 @@
 @section('medicallist-active', 'active')
 
 @section('content')
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 mb-5">
+            <div class="col-sm-12">
                 <div class="card card-title">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="text-light"><b>Edit Medical List</b></h5>
@@ -91,9 +91,25 @@
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
+                                        <label for="category_id" class="col-sm-3 m-0 text-end">Group:</label>
+                                        <div class="col-sm-8">
+                                            <select name="category_id" id="category_id" class="myselect form-control">
+                                                <option>Select Option...</option>
+                                                @foreach ($groups as $group)
+                                                    <option value="{{ $group->id }}"
+                                                        @if ($medical_list->group_id == $group->id) selected @endif>
+                                                        {{ $group->group }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
                                         <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
                                         <div class="col-sm-8">
-                                            <input type="number" class="form-control input-sm" id="price"
+                                            <input type="text" class="form-control input-sm" id="price"
                                                 name="price" placeholder="Enter Price"
                                                 value="{{ $medical_list->price }}" autocomplete="off">
                                         </div>
@@ -105,8 +121,8 @@
                                         <label for="expired_date" class="col-sm-3 m-0 text-end">Expired Date:</label>
                                         <div class="col-sm-8">
                                             <input type="date" class="form-control input-sm" id="expired_date"
-                                                name="expired_date" placeholder="Enter Expired Date"
-                                                value="{{ $medical_list->expired_date }}" autocomplete="off">
+                                                name="expired_date" value="{{ $medical_list->expired_date }}"
+                                                autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
@@ -147,6 +163,35 @@
                                     </div>
                                 </div>
                             </div>
+                            {{-- <div class="row">
+                                @foreach ($medical_list_prices as $medical_list_price)
+                                    <input type="hidden" name="medical_list_priceid[]"
+                                        value="{{ $medical_list_price->id }}">
+
+
+                                    <div class="col-sm-6 my-1">
+                                        <div class="form-group row">
+                                            <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control input-sm" id="price"
+                                                    name="price[]" placeholder="Enter Price"
+                                                    value="{{ $medical_list_price->price }}" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 my-1">
+                                        <div class="form-group row">
+                                            <label for="price" class="col-sm-3 m-0 text-end">Unit:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control input-sm" id="unit_id"
+                                                    name="unit_id[]" value="{{ $medical_list_price->unit }}"
+                                                    autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div> --}}
 
                         </div>
                         <div class="card-footer d-flex justify-content-center">

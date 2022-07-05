@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Group;
 use Illuminate\Http\Request;
-use App\Models\WarningQuantity;
+use Illuminate\Support\Facades\Validator;
 
-class WarningQuantityController extends Controller
+class GroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    // function __construct()
-    // {
-    //     $this->middleware('permission:medical-list-warning-quantity', ['only' => ['index']]);
-    // }
     public function index()
     {
-        $warning_quantities = WarningQuantity::all();
-        return view('backend.medical_lists.warning_quantities.index',compact('warning_quantities'));
+        $groups = Group::all();
+        return view('backend.medical_lists.groups.index',compact('groups'));
     }
 
     /**
@@ -41,21 +38,20 @@ class WarningQuantityController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'group' => 'required',
+        ]);
 
-        // if ($validator->fails()) {
-        //     return redirect()->back()
-        //         ->with('errorForm', $validator->errors()->getMessages())
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('errorForm', $validator->errors()->getMessages())
+                ->withInput();
+        }
 
         try {
-            $warning_quantity = new WarningQuantity;
-            $warning_quantity->yellow_warning = $request->yellow_warning;
-            $warning_quantity->red_warning = $request->red_warning;
-            $warning_quantity->save();
+            $group = new Group;
+            $group->group = $request->group;
+            $group->save();
 
             return redirect()->back()
                 ->with('success', 'Created successfully!');
@@ -85,8 +81,8 @@ class WarningQuantityController extends Controller
      */
     public function edit($id)
     {
-        $warning_quantity = WarningQuantity::findOrFail($id);
-        return view('backend.medical_lists.warning_quantities.edit',compact('warning_quantity'));
+        $group = Group::find($id);
+        return view('backend.medical_lists.groups.edit',compact('group'));
     }
 
     /**
@@ -98,14 +94,23 @@ class WarningQuantityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'group' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('errorForm', $validator->errors()->getMessages())
+                ->withInput();
+        }
+
         try {
-            $warning_quantity = WarningQuantity::findOrFail($id);
-            $warning_quantity->yellow_warning = $request->yellow_warning;
-            $warning_quantity->red_warning = $request->red_warning;
-            $warning_quantity->save();
+            $group = Group::find($id);
+            $group->group = $request->group;
+            $group->save();
 
             return redirect()->back()
-                ->with('success', 'Updated successfully!');
+                ->with('success', 'Created successfully!');
         }
         catch (Exception $e){
             return redirect()->back()
@@ -121,7 +126,7 @@ class WarningQuantityController extends Controller
      */
     public function destroy($id)
     {
-        WarningQuantity::where('id',$id)->delete();
+        Group::where('id',$id)->delete();
         return 'success';
     }
 }

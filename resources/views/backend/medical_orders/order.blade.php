@@ -132,65 +132,74 @@
                 <div class="col-sm-7 auto-height medical-card">
                     <div class="row">
                         @foreach ($medical_lists as $medical_list)
-                            <div class="col-sm-4 mb-5">
-                                <div class="card order-hover">
-                                    <div class="card-body order-card">
-                                        @if ($medical_list->photo)
-                                            <img src="{{ asset('icons/stock_photos/' . $medical_list->photo) }}"
-                                                class="order-photo" alt="">
-                                        @else
-                                            <p class="text-danger text-center"><b>No Photo</b></p>
-                                        @endif
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-order btn-info"
-                                                onclick="addToOrder({{ $medical_list->id }})">Order</button>
-                                        </div>
-
-                                    </div>
-                                    <div class="card-footer p-1">
-
-                                        <div class="d-flex justify-content-between">
-                                            <p class="m-0 pl-3"><b>{{ $medical_list->name }}</b></p>
-                                            <p class="badge bg-info mt-1"><b>Qty -
-                                                    {{ number_format($medical_list->total_qty) }}</b>
-                                            </p>
-                                        </div>
-
-
-                                        {{-- {{ number_format($medical_list->price) }} --}}
-
-                                        @foreach (explode(',', $medical_list->price) as $price)
-                                            <span class="badge bg-success m-0"><b>🎀
-                                                    <?php $priceInt = (int) $price; ?>
-                                                    {{ number_format($priceInt) }}
-                                                    MMK</b></span>
-                                        @endforeach
-                                        @foreach (explode(',', $medical_list->unit_id) as $unit)
-                                            <span class="badge bg-success m-0"><b>Unit
-                                                    ({{ $unit }})
-                                                </b></span>
-                                        @endforeach
-
-                                        <div class="d-flex justify-content-between">
-                                            @if ($medical_list->qty > 0)
-                                                <p class="badge bg-danger mt-0">
-                                                    Exp-{{ date('M-d-Y', strtotime($medical_list->expired_date)) }}
-                                                    Qty-{{ $medical_list->qty }}</p>
+                            @if ($medical_list->total_qty > 0)
+                                <div class="col-sm-4 mb-5">
+                                    <div class="card order-hover">
+                                        <div class="card-body order-card">
+                                            @if ($medical_list->total_qty <= $medical_list->last_remaining_qty)
+                                                <span class="text-danger"><b><i
+                                                            class="fas fa-exclamation-triangle"></i> Unavailability due
+                                                        to less than
+                                                        {{ $medical_list->last_remaining_qty }} qtys.</b> </span>
                                             @endif
+                                            @if ($medical_list->photo)
+                                                <img src="{{ asset('icons/stock_photos/' . $medical_list->photo) }}"
+                                                    class="order-photo" alt="">
+                                            @else
+                                                <p class="text-danger text-center"><b>No Photo</b></p>
+                                            @endif
+                                            <div class="d-flex justify-content-end">
+                                                <button type="button" class="btn btn-order btn-info"
+                                                    onclick="addToOrder({{ $medical_list->id }})"
+                                                    @if ($medical_list->total_qty <= $medical_list->last_remaining_qty) disabled @endif>Order</button>
+                                            </div>
 
                                         </div>
+                                        <div class="card-footer p-1">
+
+                                            <div class="d-flex justify-content-between">
+                                                <p class="m-0 pl-3"><b>{{ $medical_list->name }}</b></p>
+                                                <p class="badge bg-info mt-1"><b>Qty -
+                                                        {{ number_format($medical_list->total_qty) }}</b>
+                                                </p>
+                                            </div>
 
 
-                                        @foreach ($medical_list->refills as $refill)
-                                            <p class="m-0 badge bg-danger">
-                                                Exp-{{ date('M-d-Y', strtotime($refill->refill_exp)) }}
-                                                Qty -
-                                                {{ $refill->refill_qty }}</p>
-                                        @endforeach
+                                            {{-- {{ number_format($medical_list->price) }} --}}
 
+                                            {{-- @foreach (explode(',', $medical_list->price) as $price)
+                                                <span class="badge bg-success m-0"><b>🎀
+                                                        <?php $priceInt = (int) $price; ?>
+                                                        {{ number_format($priceInt) }}
+                                                        MMK</b></span>
+                                            @endforeach
+                                            @foreach (explode(',', $medical_list->unit_id) as $unit)
+                                                <span class="badge bg-success m-0"><b>Unit
+                                                        ({{ $unit }})
+                                                    </b></span>
+                                            @endforeach --}}
+
+                                            <div class="d-flex justify-content-between">
+                                                @if ($medical_list->total_qty > 0)
+                                                    <p class="badge bg-danger mt-0">
+                                                        Exp-{{ date('M-d-Y', strtotime($medical_list->expired_date)) }}
+                                                        Qty-{{ $medical_list->total_qty }}</p>
+                                                @endif
+
+                                            </div>
+
+
+                                            {{-- @foreach ($medical_list->refills as $refill)
+                                                <p class="m-0 badge bg-danger">
+                                                    Exp-{{ date('M-d-Y', strtotime($refill->refill_exp)) }}
+                                                    Qty -
+                                                    {{ $refill->refill_qty }}</p>
+                                            @endforeach --}}
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </div>
                     {{ $medical_lists->links('pagination::bootstrap-4') }}
@@ -206,14 +215,29 @@
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th class="select-exp">Select Exp</th>
-                                    <th>Qty(Dz)</th>
+                                    <th>Qty</th>
                                     <th>Total</th>
                                     {{-- <th class="total-qty">Total Qty</th> --}}
                                 </tr>
                             </thead>
-                            <tbody id="tablebody">
 
+                            <tbody id="tablebody">
+                                {{-- <tr class="btn-card">
+                                        <td colspan="3">
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+                                    </tr> --}}
                             </tbody>
+
+                            {{-- <button id="submitBtn" class="btn btn-sm btn-success">Check Out</button>
+                                <button class="btn btn-sm btn-success" onclick="printBtn()">
+                                    Print
+                                </button> --}}
+
                         </table>
                     </div>
                 </div>
@@ -441,7 +465,11 @@
                 success: function(result) {
                     //clearOrder();
                     //console.log(result);
-                    saveOrder(result);
+                    // result.order_list.forEach((order) => {
+                    //     console.log(order);
+                    // })
+                    saveOrder(JSON.stringify(result.order_list), JSON.stringify(result.refills), JSON.stringify(
+                        result.order_list_prices));
                 },
                 error: function(response) {
                     console.log(response.responseText);
@@ -449,10 +477,14 @@
             })
         }
 
-        function saveOrder(result) {
+        function saveOrder(result, refills, order_prices) {
             localStorage.setItem("orders", result);
-            let results = JSON.parse(localStorage.getItem("orders"));
-            showOrder(results);
+            localStorage.setItem("refills", refills);
+            localStorage.setItem("orders_prices", order_prices);
+            let results = localStorage.getItem("orders");
+            let refill_orders = localStorage.getItem("refills");
+            let orders_prices = localStorage.getItem("orders_prices");
+            showOrder(results, refill_orders, orders_prices);
         }
 
         function updateOrder() {
@@ -462,6 +494,8 @@
         function addOrderQty(id) {
 
             var results = JSON.parse(localStorage.getItem("orders"));
+            var refill_orders = localStorage.getItem("refills");
+            var orders_prices = localStorage.getItem("orders_prices");
             results.forEach((result) => {
                 // console.log(result.id);
                 if (result.id === id) {
@@ -469,11 +503,33 @@
                 }
             });
 
-            saveOrder(JSON.stringify(results));
+            saveOrder(JSON.stringify(results), refill_orders, orders_prices);
+        }
+
+        function calOrderQty(id) {
+            //console.log(document.querySelector('.showQty').value);
+
+            var results = JSON.parse(localStorage.getItem("orders"));
+            var refill_orders = localStorage.getItem("refills");
+            var orders_prices = localStorage.getItem("orders_prices");
+
+            results.forEach((result) => {
+                // var qty = JSON.parse(localStorage.getItem("qtys"));
+                if (result.id === id) {
+                    result.showqty = document.querySelector(".showQty_" + id).value;
+                    // qty.push(result.showqty);
+                    // localStorage.setItem("qtys", JSON.stringify(qty));
+                    // console.log(localStorage.getItem("qtys"));
+                }
+
+            });
+            saveOrder(JSON.stringify(results), refill_orders, orders_prices);
         }
 
         function removeOrderQty(id) {
             var results = JSON.parse(localStorage.getItem("orders"));
+            var refill_orders = localStorage.getItem("refills");
+            var orders_prices = localStorage.getItem("orders_prices");
             results.forEach((result) => {
                 // console.log(result.id);
                 if (result.id === id) {
@@ -481,69 +537,14 @@
                 }
             });
 
-            saveOrder(JSON.stringify(results));
-        }
-
-        var count = 0;
-
-        function showOrder(results) {
-            //clearOrder();
-            var str = "";
-            var total = 0;
-            var row = count + 1;
-            count++;
-            var d;
-            // console.log(results);
-            results.forEach((result) => {
-                total += parseInt(result.showqty) * result.price;
-                str += "<tr>";
-                str += `
-                <td>${result.name}</td>
-                <td>${parseInt(result.price).toLocaleString()}</td>
-                <td class="opt-exp${row}">
-                    <select class="form-control exp">
-                        <option>Select option....</option>
-                        <option value="${'m_'+result.id}">${result . expired_date}</option>
-                    </select>
-                </td>
-                <td>
-                    <span class="badge bg-success"><i class="fas fa-plus" style="cursor:pointer;" onclick="addOrderQty(${result.id})"></i></span>
-                    <span id="showQty">${result.showqty}</span>
-                    <span class="badge bg-success"><i class="fas fa-minus" style="cursor:pointer;" onclick="removeOrderQty(${result.id})"></i></span>
-                    <span class="badge bg-danger"><i class="fas fa-trash" style="cursor:pointer;" onclick="deleteOrder(${result.id})"></i></span>
-                </td>
-                <td>${parseInt(result.showqty * result.price/12).toLocaleString()}</td>
-
-            `;
-                str += "</tr>";
-            });
-
-            str += `
-                <tr>
-                    <td colspan="4" class="text-end"><b>Grand Total : </b></td>
-                    <td>${total.toLocaleString()}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="text-end"><b>Voucher Id : </b></td>
-                    <td id="voucher">${new Date().getTime()}</td>
-                    <td></td>
-                </tr>
-                <tr class="btn-card">
-                    <td colspan="4" class="text-end">
-                        <button class="btn btn-sm btn-success" onclick="payOut()">Check Out</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-success" onclick="printBtn()">Print</button>
-                    </td>
-                </tr>
-            `;
-
-            $('#tablebody').html(str);
+            saveOrder(JSON.stringify(results), refill_orders, orders_prices);
         }
 
         function deleteOrder(id) {
             var results = JSON.parse(localStorage.getItem("orders"));
+            var refill_orders = localStorage.getItem("refills");
+            var orders_prices = localStorage.getItem("orders_prices");
+            // var new_results;
 
             results.forEach((result) => {
 
@@ -551,19 +552,243 @@
                     var ind = results.indexOf(result);
                     //console.log(ind);
                     results.splice(ind, 1);
-
                 }
             })
 
-            saveOrder(JSON.stringify(results));
+            deleteItem(id);
+
+            saveOrder(JSON.stringify(results), refill_orders, orders_prices);
+        }
+
+        function deleteItem(id) {
+            var ary = JSON.parse(localStorage.getItem("items"));
+
+            if (ary != null) {
+                ary.forEach((item) => {
+                    if (item == id) {
+                        var ind = ary.indexOf(item);
+                        ary.splice(ind, 1);
+                    }
+                });
+            }
+
+            localStorage.setItem("items", JSON.stringify(ary));
+        }
+
+        var count = 0;
+
+        function showOrder(results, refill_orders, orders_prices) {
+            //console.log(JSON.parse(refill_orders));
+            //clearOrder();
+            //console.log(JSON.parse(results));
+            var str = "";
+            var total = 0;
+            var row = count + 1;
+            count++;
+            var d;
+            //console.log(results);
+            JSON.parse(results).forEach((result) => {
+
+                //console.log(result.showqty);
+                var refill = "";
+                total += result.showqty * result.price;
+                sum = parseInt(result.showqty) * parseInt(result.price);
+
+
+
+                //console.log(refill_orders[index]);
+
+                JSON.parse(refill_orders).forEach((refill_order_wrapper) => {
+
+                    refill_order_wrapper.forEach((refill_order) => {
+                        if (refill_order.medical_list_id == result.id) {
+                            //console.log(refill_order);
+                            refill += '<option value="r_' + refill_order.id + '">' + refill_order
+                                .refill_exp +
+                                '</option>'
+                            //refill = '<option value="hi">Hi</option>';
+                        }
+                    });
+
+                });
+
+                // JSON.parse(orders_prices).forEach((orders_price_wrapper) => {
+
+                //     orders_price_wrapper.forEach((orders_price) => {
+                //         if (orders_price.medical_list_id == result.id && orders_price.unit == result
+                //             .showqty) {
+                //             total = orders_price.price;
+                //         }
+
+                //     });
+                //     // console.log(orders_price);
+                // });
+
+                //console.log(refill);
+
+                str += '<tr>' +
+                    '<td>' + result.name + '</td>' +
+                    '<td class="showPrice_' + result.id + '">' + result.price + '</td>' +
+                    '<td>' + result.expired_date + '</td>' +
+                    // '<td class="opt-exp' + row + '">' +
+                    // '<select class="form-control exp">' +
+                    // '<option>Select option....</option>' +
+                    // '<option value="m_' + result.id + '_' + row + '">' + result.expired_date + '</option>' +
+                    // refill +
+                    // '</select>' +
+                    // '</td>' +
+                    '<td>' +
+                    '<span class="badge bg-success"><i class="fas fa-plus" style="cursor:pointer;" onclick="addOrderQty(' +
+                    result.id + ')"></i></span>' +
+                    // '<span id="showQty">' + result.showqty + '</span>' +
+
+                    '<span style="display:inline-block;">' +
+                    '<input type="text" class="form-control showQty_' + result.id +
+                    '" id="showQty" style="width:50px;padding:0px;" name="quantity[]" value="' +
+                    result.showqty + '">' +
+                    '</span>' +
+
+                    '<span style="display:inline-block;">' +
+                    '<input type="hidden" class="form-control showQty_' + result.id +
+                    '" id="showQty" style="width:50px;padding:0px;" name="medical_list_id[]" value="' +
+                    result.id + '">' +
+                    '</span>' +
+
+
+                    '<span class="badge bg-success"><i class="fas fa-calculator" style="cursor:pointer;" onclick="calOrderQty(' +
+                    result.id + ')"></i></span>' +
+                    '<span class="badge bg-success"><i class="fas fa-minus" style="cursor:pointer;" onclick="removeOrderQty(' +
+                    result.id + ')"></i></span>' +
+                    '<span class="badge bg-danger"><i class="fas fa-trash" style="cursor:pointer;" onclick="deleteOrder(' +
+                    result.id + ')"></i></span>' +
+                    '</td>' +
+                    '<td id="show_Total' + result.id + '">' + sum.toLocaleString() + '</td>' +
+                    '</tr>'
+
+
+
+                //     str += `
+            //     <td>${result.name}</td>
+            //     <td>${parseInt(result.price).toLocaleString()}</td>
+            //     <td class="opt-exp${row}">
+            //         <select class="form-control exp">
+            //             <option>Select option....</option>
+            //             <option value="${'m_'+result.id}">${result . expired_date}</option>
+
+            //         </select>
+            //     </td>
+            //     <td>
+            //         <span class="badge bg-success"><i class="fas fa-plus" style="cursor:pointer;" onclick="addOrderQty(${result.id})"></i></span>
+            //         <span id="showQty">${result.showqty}</span>
+            //         <span class="badge bg-success"><i class="fas fa-minus" style="cursor:pointer;" onclick="removeOrderQty(${result.id})"></i></span>
+            //         <span class="badge bg-danger"><i class="fas fa-trash" style="cursor:pointer;" onclick="deleteOrder(${result.id})"></i></span>
+            //     </td>
+            //     <td>${parseInt(result.showqty * result.price/12).toLocaleString()}</td>
+
+            // `;
+                //         str += `
+            //     <td>${result.name}</td>
+            //     <td>${parseInt(result.price).toLocaleString()}</td>
+            //     <td class="opt-exp${row}">
+            //         <select class="form-control exp">
+            //             <option>Select option....</option>
+            //             <option value="${'m_'+result.id}">${result . expired_date}</option>
+
+            //         </select>
+            //     </td>
+            //     <td>
+            //         <span class="badge bg-success"><i class="fas fa-plus" style="cursor:pointer;" onclick="addOrderQty(${result.id})"></i></span>
+            //         <span id="showQty">${result.showqty}</span>
+            //         <span class="badge bg-success"><i class="fas fa-minus" style="cursor:pointer;" onclick="removeOrderQty(${result.id})"></i></span>
+            //         <span class="badge bg-danger"><i class="fas fa-trash" style="cursor:pointer;" onclick="deleteOrder(${result.id})"></i></span>
+            //     </td>
+            //     <td>${parseInt(result.showqty * result.price/12).toLocaleString()}</td>
+
+            // `;
+                // str += "</tr>";
+
+            });
+
+            str += `
+            <tr>
+                <td colspan="3" class="text-end"><b>Grand Total : </b></td>
+                <td id="total_amount">${total.toLocaleString()}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-end"><b>Voucher Id : </b></td>
+                <td id="voucher">${new Date().getTime()}</td>
+                <td></td>
+            </tr>
+            `;
+
+            str += '<tr class="btn-card">' +
+                '<td colspan="3" class="text-end">' +
+                '<button class="btn btn-sm btn-success" onclick="payOut()">Check Out</button>' +
+                // '<button id="submitBtn" class="btn btn-sm btn-success">Check Out</button>' +
+                '</td>' +
+                '<td>' +
+                '<button class="btn btn-sm btn-success" onclick="printBtn(' + row + ')">Print</button>' +
+                '</td>' +
+                '</tr>'
+
+
+            $('#tablebody').html(str);
+
 
         }
+        $("#submitBtn").click(function() {
+            $(".myForm").submit(); // Submit the form
+
+        });
+
 
         //send to server
         function payOut() {
+
+            var quantities = document.getElementsByName('quantity[]');
+            var medical_lists = document.getElementsByName('medical_list_id[]');
+            var qtys = [];
+            var medical_list_id = [];
+
+            for (var i = 0; i < quantities.length; i++) {
+                let qty = quantities[i];
+                let medical_list = medical_lists[i];
+                qtys.push(qty.value);
+
+                medical_list_id.push(medical_list.value);
+            }
+
+            let medical_id = Array(medical_list_id);
+
+            //console.log(k);
+
             var results = JSON.parse(localStorage.getItem("orders"));
-            let voucher = $('#voucher').val();
-            let showQty = $('#showQty').text();
+            // console.log(results);
+            let voucher = $('#voucher').text();
+
+            let total_amount = $('#total_amount').text();
+
+
+            // var qtys = [];
+
+            // results.forEach((result) => {
+            //     //console.log(result);
+
+            //     // localStorage.setItem("qtys", JSON.stringify(document.querySelector(".showQty_" + result.id)
+            //     //     .value))
+            //     results.push(document.querySelector(".showQty_" + result.id).value);
+            //     results.push(document.querySelector(".showPrice_" + result.id).text);
+            //     results.push(document.querySelector(".showTotal_" + result.id).text);
+
+            //     // showTotal = $(".showPrice_" + result.id).text();
+
+            //     // results.push("qtys");
+
+            // });
+            // results.push(qtys);
+            //console.log(qtys);
+            // let showQty = $('#showQty').text();
             //alert(showQty);
             // var selected = [];
             // for (var option of document.querySelector('.exp').options) {
@@ -571,17 +796,19 @@
             //         selected.push(option.value);
             //     }
             // }
-            //alert(selected);
             $.ajax({
                 type: 'POST',
                 url: '/payout',
                 data: {
                     'items': results,
                     'voucher': voucher,
+                    'total_amount': total_amount,
+                    'qtys': qtys,
+                    'medical_list_id': medical_list_id,
                 },
                 success: function(result) {
                     clearOrder();
-                    showOrder([]);
+                    window.location.reload();
                     //console.log(result);
                     //saveOrder(result);
                 },
@@ -591,41 +818,69 @@
             })
         }
 
-        function printBtn() {
+        function printBtn(row) {
+            // console.log(row);
             var medicalCard = document.querySelector(".medical-card");
             var searchCard = document.querySelector(".search-card");
-            var btnCard = document.querySelector(".btn-card");
-            var selectExp = document.querySelector(".select-exp");
-            var optExp = document.querySelector(".opt-exp");
 
             medicalCard.style.display = 'none';
             searchCard.style.display = 'none';
-            btnCard.style.display = 'none';
-            selectExp.style.display = 'none';
-            optExp.style.display = 'none';
+            if ($('.btn-card').length > 0) {
+                var btnCard = document.querySelector(".btn-card");
+                btnCard.style.display = 'none';
+            }
+
+            // if ($(".select-exp").length > 0) {
+            //     var selectExp = document.querySelector(".select-exp");
+            //     if (selectExp != '') {
+            //         selectExp.style.display = 'none';
+            //     }
+            // }
+
+            // if ($(".opt-exp" + row).length > 0) {
+            //     // var optExp = document.querySelector(".opt-exp" + row);
+            //     if (document.querySelector(".opt-exp" + row) != '') {
+            //         document.querySelector(".opt-exp" + row).style.display = 'none';
+            //     }
+            // }
 
             window.print();
         }
 
-        function printShow() {
+        function printShow(row) {
+            //console.log(row);
             var medicalCard = document.querySelector(".medical-card");
             var searchCard = document.querySelector(".search-card");
-            var btnCard = document.querySelector(".btn-card");
-            var selectExp = document.querySelector(".select-exp");
-            var optExp = document.querySelector(".opt-exp");
 
             medicalCard.style.display = null;
             searchCard.style.display = null;
-            btnCard.style.display = null;
-            selectExp.style.display = null;
-            optExp.style.display = null;
+            if ($('.btn-card').length > 0) {
+                var btnCard = document.querySelector(".btn-card");
+                if (btnCard != '') {
+                    btnCard.style.display = null;
+                }
+            }
+
+            // if ($('.select-exp').length > 0) {
+            //     var selectExp = document.querySelector(".select-exp");
+            //     if (selectExp != '') {
+            //         selectExp.style.display = null;
+            //     }
+            // }
+
+            // if ($(".opt-exp" + row).length > 0) {
+            //     // var optExp = document.querySelector(".opt-exp" + row);
+            //     if (document.querySelector(".opt-exp" + row) != '') {
+            //         document.querySelector(".opt-exp" + row).style.display = null;
+            //     }
+            // }
         }
 
         function addToOrder(id) {
-            //alert(refill);
+            // alert(id);
 
             var ary = JSON.parse(localStorage.getItem("items"));
-            //console.log(ary);
+            // console.log(ary);
 
             if (ary == null) {
                 var orderAry = [id];
@@ -646,12 +901,14 @@
 
         function getOrderItems() {
             let ary = JSON.parse(localStorage.getItem("items"));
-            return ary;
             //console.log(ary);
+            return ary;
+
         }
 
         function clearOrder() {
             localStorage.removeItem("items");
+            localStorage.removeItem("qtys");
         }
     </script>
     {{-- @endsection --}}

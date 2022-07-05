@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-3">
+                    <div class="form-group row mt-3 px-3">
                         <label for="" class="col-sm-12"><b>Permission</b></label>
                         @foreach ($permissions as $permission)
                             <div class="col-sm-3">

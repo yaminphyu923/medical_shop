@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-sm-12 mb-5">
+            <div class="col-sm-12">
                 <div class="card card-title">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="text-light"><b>Refill Stock</b></h5>
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 my-1">
+                                {{-- <div class="col-sm-12 my-1">
                                     <div class="form-group row">
                                         <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
                                         <div class="col-sm-8">
@@ -87,7 +87,7 @@
                                                 value="{{ $medical_list->price }}" autocomplete="off">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-sm-12 my-1">
                                     <div class="form-group row">

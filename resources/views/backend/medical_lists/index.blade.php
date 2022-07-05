@@ -27,6 +27,10 @@
                                 <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i>
                                     <b>Category</b></button>&nbsp;
                             </a>
+                            <a href="{{ route('groups.index') }}">
+                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i>
+                                    <b>Group</b></button>&nbsp;
+                            </a>
                             <a href="{{ route('medical-lists.create') }}">
                                 <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i><b>
                                         Create</b></button>
@@ -173,11 +177,11 @@
                                     </td>
                                     <td>{{ $medicalList->note }}</td>
                                     <td>
-                                        <a href="{{ route('refill', $medicalList->id) }}">
+                                        {{-- <a href="{{ route('refill', $medicalList->id) }}">
                                             <button type="button" class="btn btn-sm btn-info"><i
                                                     class="fas fa-plus-circle"></i>
                                                 Refill</button>
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ route('medical-lists.edit', $medicalList->id) }}">
                                             <button type="button" class="btn btn-sm btn-warning"><i
                                                     class="fas fa-edit"></i>
