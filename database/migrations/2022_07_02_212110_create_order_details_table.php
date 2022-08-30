@@ -20,6 +20,10 @@ class CreateOrderDetailsTable extends Migration
             $table->text('qty')->nullable();
             $table->text('price')->nullable();
             $table->text('total')->nullable();
+            $table->text('customer_id')->nullable();
+            $table->text('note')->nullable();
+            $table->text('note_finish')->nullable();
+            $table->text('status')->nullable();
             $table->timestamps();
         });
     }

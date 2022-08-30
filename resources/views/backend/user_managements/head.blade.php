@@ -7,17 +7,17 @@
 
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('users.index') }}">
-                            <button type="button" class="btn btn-sm btn-info @yield('user-active')">
+                            <button type="button" class="btn btn-sm btn-success @yield('user-active')">
                                 <b>🙎‍♂️ Users</b></button>&nbsp;
                         </a>
 
                         <a href="{{ route('roles.index') }}">
-                            <button type="button" class="btn btn-sm btn-info @yield('role-active')"><b>📁
+                            <button type="button" class="btn btn-sm btn-success @yield('role-active')"><b>📁
                                     Role</b></button>&nbsp;
                         </a>
 
                         <a href="{{ route('permissions.index') }}">
-                            <button type="button" class="btn btn-sm btn-info @yield('permission-active')"">
+                            <button type="button" class="btn btn-sm btn-success @yield('permission-active')"">
                                 <b>🅿 Permission</b></button>
                         </a>
                     </div>

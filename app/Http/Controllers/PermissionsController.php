@@ -136,6 +136,7 @@ class PermissionsController extends Controller
     public function destroy($id)
     {
         Permission::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back();
+        // return 'success';
     }
 }

@@ -110,7 +110,7 @@ class GroupController extends Controller
             $group->save();
 
             return redirect()->back()
-                ->with('success', 'Created successfully!');
+                ->with('success', 'Updated successfully!');
         }
         catch (Exception $e){
             return redirect()->back()
@@ -127,6 +127,6 @@ class GroupController extends Controller
     public function destroy($id)
     {
         Group::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back()->with('success','Deleted!');
     }
 }

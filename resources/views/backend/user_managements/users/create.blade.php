@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="form-group row my-2">
+                    <div class="form-group row my-2 pt-3">
                         <label for="" class="col-sm-4 col-md-4 text-md-end text-right"><b>Name</b></label>
                         <div class="col-sm-6 col-md-6">
                             <input type="text" name="name" class="form-control" autocomplete="off">

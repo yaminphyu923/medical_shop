@@ -33,16 +33,26 @@
                             <td>{{ $role->name }}</td>
 
                             <td>
-                                <a href="{{ route('roles.show', $role->id) }}"><button type="button"
-                                        class="btn btn-sm btn-primary py-2"><i class="fas fa-eye"></i>
-                                        Detail</button></a>
+                                <div class="d-flex justify-content-start">
+                                    <a href="{{ route('roles.show', $role->id) }}"><button type="button"
+                                            class="btn btn-sm btn-primary py-2"><i class="fas fa-eye"></i>
+                                            Detail</button></a>
 
-                                <a href="{{ route('roles.edit', $role->id) }}"><button type="button"
-                                        class="btn btn-sm btn-warning py-2"><i class="fas fa-edit"></i>
-                                        Edit</button></a>
+                                    <a href="{{ route('roles.edit', $role->id) }}"><button type="button"
+                                            class="btn btn-sm btn-warning py-2"><i class="fas fa-edit"></i>
+                                            Edit</button></a>
 
-                                <button type="button" class="btn btn-sm btn-danger py-2 delete" id="{{ $role->id }}"><i
-                                        class="fas fa-trash"></i>Delete</button>
+                                    {{-- <button type="button" class="btn btn-sm btn-danger py-2 delete" id="{{ $role->id }}"><i
+                                        class="fas fa-trash"></i>Delete</button> --}}
+
+                                    <form action="{{ route('roles.destroy', $role->id) }}" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger btn-sm" type="submit"><i
+                                                class="fas fa-trash-alt"></i>
+                                            Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

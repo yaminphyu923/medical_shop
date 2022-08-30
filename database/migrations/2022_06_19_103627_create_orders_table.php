@@ -16,7 +16,15 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->text('voucher')->nullable();
+            $table->text('medical_list_id')->nullable();
+            $table->text('price')->nullable();
+            $table->text('qty')->nullable();
             $table->text('total_amount')->nullable();
+            $table->text('customer_id')->nullable();
+            $table->text('debt_money')->nullable();
+            $table->text('debt')->nullable();
+            $table->text('pay_money')->nullable();
+            $table->text('status')->nullable();
             $table->timestamps();
         });
     }

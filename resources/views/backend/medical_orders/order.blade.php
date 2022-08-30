@@ -41,7 +41,7 @@
         @include('sweetalert::alert')
         {{-- onmousemove="printShow()" --}}
 
-        <div class="container-fluid" onmousemove="printShow()">
+        <div class="container-fluid">
 
             <div class="row search-card my-1">
 
@@ -136,12 +136,12 @@
                                 <div class="col-sm-4 mb-5">
                                     <div class="card order-hover">
                                         <div class="card-body order-card">
-                                            @if ($medical_list->total_qty <= $medical_list->last_remaining_qty)
+                                            {{-- @if ($medical_list->total_qty <= $medical_list->last_remaining_qty)
                                                 <span class="text-danger"><b><i
                                                             class="fas fa-exclamation-triangle"></i> Unavailability due
                                                         to less than
                                                         {{ $medical_list->last_remaining_qty }} qtys.</b> </span>
-                                            @endif
+                                            @endif --}}
                                             @if ($medical_list->photo)
                                                 <img src="{{ asset('icons/stock_photos/' . $medical_list->photo) }}"
                                                     class="order-photo" alt="">
@@ -150,8 +150,7 @@
                                             @endif
                                             <div class="d-flex justify-content-end">
                                                 <button type="button" class="btn btn-order btn-info"
-                                                    onclick="addToOrder({{ $medical_list->id }})"
-                                                    @if ($medical_list->total_qty <= $medical_list->last_remaining_qty) disabled @endif>Order</button>
+                                                    onclick="addToOrder({{ $medical_list->id }})">Order</button>
                                             </div>
 
                                         </div>
@@ -214,7 +213,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th class="select-exp">Select Exp</th>
+                                    <th class="select-exp">Exp</th>
                                     <th>Qty</th>
                                     <th>Total</th>
                                     {{-- <th class="total-qty">Total Qty</th> --}}
@@ -494,6 +493,7 @@
         function addOrderQty(id) {
 
             var results = JSON.parse(localStorage.getItem("orders"));
+
             var refill_orders = localStorage.getItem("refills");
             var orders_prices = localStorage.getItem("orders_prices");
             results.forEach((result) => {
@@ -502,6 +502,8 @@
                     result.showqty = parseInt(result.showqty) + 1;
                 }
             });
+            //console.log(results);
+            // localStorage.setItem("items", JSON.stringify(results));
 
             saveOrder(JSON.stringify(results), refill_orders, orders_prices);
         }
@@ -510,6 +512,7 @@
             //console.log(document.querySelector('.showQty').value);
 
             var results = JSON.parse(localStorage.getItem("orders"));
+
             var refill_orders = localStorage.getItem("refills");
             var orders_prices = localStorage.getItem("orders_prices");
 
@@ -582,7 +585,7 @@
             //clearOrder();
             //console.log(JSON.parse(results));
             var str = "";
-            var total = 0;
+            var eachPrice = 0;
             var row = count + 1;
             count++;
             var d;
@@ -591,6 +594,7 @@
 
                 //console.log(result.showqty);
                 var refill = "";
+                const d = new Date(result.expired_date);
                 total += result.showqty * result.price;
                 sum = parseInt(result.showqty) * parseInt(result.price);
 
@@ -598,38 +602,55 @@
 
                 //console.log(refill_orders[index]);
 
-                JSON.parse(refill_orders).forEach((refill_order_wrapper) => {
+                // JSON.parse(refill_orders).forEach((refill_order_wrapper) => {
 
-                    refill_order_wrapper.forEach((refill_order) => {
-                        if (refill_order.medical_list_id == result.id) {
-                            //console.log(refill_order);
-                            refill += '<option value="r_' + refill_order.id + '">' + refill_order
-                                .refill_exp +
-                                '</option>'
-                            //refill = '<option value="hi">Hi</option>';
+                //     refill_order_wrapper.forEach((refill_order) => {
+                //         if (refill_order.medical_list_id == result.id) {
+                //             //console.log(refill_order);
+                //             refill += '<option value="r_' + refill_order.id + '">' + refill_order
+                //                 .refill_exp +
+                //                 '</option>'
+                //             //refill = '<option value="hi">Hi</option>';
+                //         }
+                //     });
+
+                // });
+
+                JSON.parse(orders_prices).forEach((orders_price_wrapper) => {
+
+                    // console.log(orders_price_wrapper);
+
+                    orders_price_wrapper.forEach((orders_price) => {
+                        // if (orders_price.medical_list_id == result.id && orders_price.unit == result
+                        //     .showqty) {
+                        //     total = orders_price.price;
+                        // }
+                        if (orders_price.medical_list_id == result.id) {
+                            eachPrice = orders_price.price;
+
+
+
                         }
+                        //console.log(eachPrice);
+
                     });
 
                 });
 
-                // JSON.parse(orders_prices).forEach((orders_price_wrapper) => {
-
-                //     orders_price_wrapper.forEach((orders_price) => {
-                //         if (orders_price.medical_list_id == result.id && orders_price.unit == result
-                //             .showqty) {
-                //             total = orders_price.price;
-                //         }
-
-                //     });
-                //     // console.log(orders_price);
-                // });
-
-                //console.log(refill);
+                //console.log(eachPrice);
 
                 str += '<tr>' +
                     '<td>' + result.name + '</td>' +
-                    '<td class="showPrice_' + result.id + '">' + result.price + '</td>' +
-                    '<td>' + result.expired_date + '</td>' +
+                    // '<td class="showPrice_' + result.id + '">' + result.price + '</td>' +
+
+                    '<td>' +
+                    '<select name="price[]" class="form-control">' +
+                    '<option value="eachPrice">' + eachPrice + '</option>' +
+                    '</select>' +
+                    '</td>' +
+
+
+                    '<td>' + d.toDateString() + '</td>' +
                     // '<td class="opt-exp' + row + '">' +
                     // '<select class="form-control exp">' +
                     // '<option>Select option....</option>' +
@@ -712,7 +733,7 @@
             str += `
             <tr>
                 <td colspan="3" class="text-end"><b>Grand Total : </b></td>
-                <td id="total_amount">${total.toLocaleString()}</td>
+                <td id="total_amount">${total}</td>
                 <td></td>
             </tr>
             <tr>
@@ -724,13 +745,14 @@
 
             str += '<tr class="btn-card">' +
                 '<td colspan="3" class="text-end">' +
-                '<button class="btn btn-sm btn-success" onclick="payOut()">Check Out</button>' +
+                // '<button class="btn btn-sm btn-success" onclick="payOut()">Check Out</button>' +
                 // '<button id="submitBtn" class="btn btn-sm btn-success">Check Out</button>' +
                 '</td>' +
                 '<td>' +
-                '<button class="btn btn-sm btn-success" onclick="printBtn(' + row + ')">Print</button>' +
-                '</td>' +
-                '</tr>'
+                // '<button class="btn btn-sm btn-success" onclick="printBtn(' + row + ')">Print</button>' +
+                '<button class="btn btn-sm btn-success" onclick="print()">Save & Print</button>'
+            '</td>' +
+            '</tr>'
 
 
             $('#tablebody').html(str);
@@ -809,6 +831,86 @@
                 success: function(result) {
                     clearOrder();
                     window.location.reload();
+                    //console.log(result);
+                    //saveOrder(result);
+                },
+                error: function(response) {
+                    console.log(response.responseText);
+                }
+            })
+        }
+
+        function print() {
+            var quantities = document.getElementsByName('quantity[]');
+            var medical_lists = document.getElementsByName('medical_list_id[]');
+            //var prices = document.getElementsByName('price[]');
+            //console.log(prices);
+            var qtys = [];
+            var medical_list_id = [];
+            //var price = [];
+
+            for (var i = 0; i < quantities.length; i++) {
+                let qty = quantities[i];
+                let medical_list = medical_lists[i];
+                //let each_price = price[i];
+                qtys.push(qty.value);
+
+                medical_list_id.push(medical_list.value);
+
+                //price.push(each_price.value);
+            }
+
+            let medical_id = Array(medical_list_id);
+
+            //console.log(k);
+
+            var results = JSON.parse(localStorage.getItem("orders"));
+            // console.log(results);
+            let voucher = $('#voucher').text();
+
+            let total_amount = $('#total_amount').text();
+
+
+            // var qtys = [];
+
+            // results.forEach((result) => {
+            //     //console.log(result);
+
+            //     // localStorage.setItem("qtys", JSON.stringify(document.querySelector(".showQty_" + result.id)
+            //     //     .value))
+            //     results.push(document.querySelector(".showQty_" + result.id).value);
+            //     results.push(document.querySelector(".showPrice_" + result.id).text);
+            //     results.push(document.querySelector(".showTotal_" + result.id).text);
+
+            //     // showTotal = $(".showPrice_" + result.id).text();
+
+            //     // results.push("qtys");
+
+            // });
+            // results.push(qtys);
+            //console.log(qtys);
+            // let showQty = $('#showQty').text();
+            //alert(showQty);
+            // var selected = [];
+            // for (var option of document.querySelector('.exp').options) {
+            //     if (option.selected) {
+            //         selected.push(option.value);
+            //     }
+            // }
+            $.ajax({
+                type: 'POST',
+                url: '/print',
+                data: {
+                    'items': results,
+                    'voucher': voucher,
+                    'total_amount': total_amount,
+                    'qtys': qtys,
+                    'medical_list_id': medical_list_id,
+                    //'prices': price,
+                },
+                success: function(result) {
+                    clearOrder();
+                    window.location.href = "{{ URL::to('print-page') }}"
                     //console.log(result);
                     //saveOrder(result);
                 },

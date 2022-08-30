@@ -11,12 +11,12 @@
                         <h5 class="text-light"><b>Groups</b></h5>
 
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"><i class="fas fa-plus-circle"></i>
                                 <b>Create</b></button>&nbsp;
 
                             <a href="{{ route('medical-lists.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>
                             </a>
                         </div>
@@ -68,15 +68,22 @@
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td><b>{{ $group->group }}</b></td>
-                                    <td>
+                                    <td class="d-flex justify-content-start">
                                         <a href="{{ route('groups.edit', $group->id) }}">
                                             <button type="button" class="btn btn-sm btn-warning"><i
                                                     class="fas fa-edit"></i>
                                                 Edit</button>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-danger delete"
+                                        <form action="{{ route('groups.destroy', $group->id) }}" method="post">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button class="btn btn-danger btn-sm" type="submit"><i
+                                                    class="fas fa-trash-alt"></i> Delete</button>
+                                        </form>
+
+                                        {{-- <button type="button" class="btn btn-sm btn-danger delete"
                                             id="{{ $group->id }}"><i class="fas fa-trash"></i>
-                                            Delete</button>
+                                            Delete</button> --}}
                                     </td>
                                 </tr>
                             @endforeach

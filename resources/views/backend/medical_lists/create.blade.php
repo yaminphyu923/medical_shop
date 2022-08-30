@@ -16,7 +16,7 @@
                                     <b>Unit</b></button>&nbsp;
                             </a> --}}
                             <a href="{{ route('medical-lists.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>
                             </a>
                         </div>
@@ -51,7 +51,7 @@
                                         <div class="col-sm-8">
                                             <input type="number" class="form-control input-sm" id="qty"
                                                 name="qty" placeholder="Enter Quantity" value="{{ old('qty') }}"
-                                                autocomplete="off">
+                                                autocomplete="off" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -118,6 +118,17 @@
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
+                                        <label for="original_price" class="col-sm-3 m-0 text-end">Original Price:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-sm" id="original_price"
+                                                name="original_price" placeholder="Enter Original Price"
+                                                value="{{ old('original_price') }}" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
                                         <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control input-sm" id="price"
@@ -125,7 +136,7 @@
                                                 autocomplete="off">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
@@ -160,17 +171,17 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="price-list">
+                                <div class="price-list">
                                     <div class="col-sm-12 my-1">
                                         <div class="form-group row">
                                             <label for="price" class="col-sm-2 m-0 text-end">Price:</label>
                                             <div class="col-sm-2">
                                                 <input type="text" class="form-control input-sm" id="price"
-                                                    name="price[]" placeholder="Enter Price"
-                                                    value="{{ old('price') }}" autocomplete="off">
+                                                    name="price[]" placeholder="Enter Price" value="{{ old('price') }}"
+                                                    autocomplete="off">
                                             </div>
                                             <label for="" class="col-sm-1">MMK</label>
-                                            <label for="unit" class="col-sm-1 m-0 text-end">Unit:</label>
+                                            {{-- <label for="unit" class="col-sm-1 m-0 text-end">Unit:</label>
                                             <div class="col-sm-2">
                                                 <select name="unit_id[]" id="unit" class="form-control">
                                                     <option>Select Option...</option>
@@ -178,7 +189,7 @@
                                                         <option value="{{ $unit->unit }}">{{ $unit->unit }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-sm-1 text-end p-0">
                                                 <button type="button" class="btn btn-info" onclick="plus()"><i
@@ -187,7 +198,7 @@
 
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
 
                         </div>
@@ -240,13 +251,13 @@
                         '" class="form-control" placeholder="Enter Price">' +
                         '</div>' +
                         '<label for="" class="col-sm-1">MMK</label>' +
-                        '<label for="unit" class="col-sm-1 m-0 text-end">Unit:</label>' +
-                        '<div class="col-sm-2">' +
-                        '<select name="unit_id[]" id="unit' + row + '" class="form-control">' +
-                        '<option>Select Option...</option>' +
+                        // '<label for="unit" class="col-sm-1 m-0 text-end">Unit:</label>' +
+                        // '<div class="col-sm-2">' +
+                        // '<select name="unit_id[]" id="unit' + row + '" class="form-control">' +
+                        // '<option>Select Option...</option>' +
 
-                        '</select>' +
-                        '</div>' +
+                        // '</select>' +
+                        // '</div>' +
                         '<div class="col-sm-1 col-md-1 text-end">' +
                         '<button type="button" onClick="remove(' + row +
                         ')" class="btn btn-danger btn-md float-right"><i class="fas fa-times"></i></button>' +

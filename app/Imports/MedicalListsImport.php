@@ -19,10 +19,11 @@ class MedicalListsImport implements ToModel
             'total_qty' => (isset($row[1]))?$row[1]:'-',
             'start_date' => (isset($row[2]))?$row[2]:'-',
             'category_id' => (isset($row[3]))?$row[3]:'-',
-            'price' => (isset($row[4]))?$row[4]:'-',
-            'expired_date' => (isset($row[5]))?$row[5]:'-',
-            'last_remaining_qty' => (isset($row[6]))?$row[6]:'-',
-            'note' => (isset($row[7]))?$row[7]:'-'
+            'original_price' => (isset($row[4]))?$row[4]:'-',
+            'price' => (isset($row[5]))?$row[5]:'-',
+            'expired_date' => (isset($row[6]))?$row[6]:'-',
+            'last_remaining_qty' => (isset($row[7]))?$row[7]:'-',
+            'note' => (isset($row[8]))?$row[8]:'-',
         ]);
     }
 }

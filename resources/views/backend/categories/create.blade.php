@@ -5,13 +5,13 @@
 @section('content')
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-sm-12 mb-5">
+            <div class="col-sm-12 mb-1">
                 <div class="card card-title">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="text-light"><b>Create Category</b></h5>
 
                         <a href="{{ route('categories.index') }}">
-                            <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                            <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                     Back</b></button>
                         </a>
                     </div>
@@ -28,12 +28,13 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-sm-12 my-1">
+                                <div class="col-sm-12 my-4">
                                     <div class="form-group row">
                                         <label for="name" class="col-sm-3 m-0 text-end">Name:</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control input-sm" id="name" name="name"
-                                                placeholder="Enter Name" value="{{ old('name') }}" autocomplete="off">
+                                            <input type="text" class="form-control input-sm" id="name"
+                                                name="name" placeholder="Enter Name" value="{{ old('name') }}"
+                                                autocomplete="off">
                                         </div>
                                     </div>
                                 </div>

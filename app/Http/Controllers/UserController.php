@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::where('name','!=','MMcities')->get();
         return view('backend.user_managements.users.index',compact('users'));
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::where('name','!=','SuperAdmin')->pluck('name','name')->all();
         return view('backend.user_managements.users.create',compact('roles'));
     }
 
@@ -105,7 +105,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::where('name','!=','SuperAdmin')->pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->first();
 
         return view('backend.user_managements.users.edit',compact('user','roles','userRole'));
@@ -164,6 +164,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return 'success';
+        return redirect()->back();
+        // return 'success';
     }
 }

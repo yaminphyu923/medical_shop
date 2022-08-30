@@ -12,12 +12,12 @@
 
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('medical-lists.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>&nbsp;
                             </a>
 
                             <a href="{{ route('categories.create') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i><b>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i><b>
                                         Create</b></button>
                             </a>
 
@@ -41,16 +41,23 @@
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>
+                                    <td class="d-flex justify-content-start">
                                         <a href="{{ route('categories.edit', $category->id) }}">
                                             <button type="button" class="btn btn-sm btn-warning"><i
                                                     class="fas fa-edit"></i>
                                                 Edit</button>
                                         </a>
 
-                                        <button type="button" class="btn btn-sm btn-danger delete"
+                                        <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button class="btn btn-danger btn-sm" type="submit"><i
+                                                    class="fas fa-trash-alt"></i> Delete</button>
+                                        </form>
+
+                                        {{-- <button type="button" class="btn btn-sm btn-danger delete"
                                             id="{{ $category->id }}"><i class="fas fa-trash"></i>
-                                            Delete</button>
+                                            Delete</button> --}}
                                     </td>
                                 </tr>
                             @endforeach

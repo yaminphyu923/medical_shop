@@ -4,12 +4,12 @@
 }
 
 .auth-card .card-header{
-    background-color: #d63384;
+    background-color: #079aef;
     color: #fff;
 }
 
 .btn-login{
-    background-color: #d63384;
+    background-color: #079aef;
     color: #fff;
     box-shadow: 2px 2px 4px #333, -2px -2px 2px #ddd;
 }
@@ -30,7 +30,7 @@
 /* ................. Dashboard............... */
 
 .card-title{
-    background-color: #c40169 !important;
+    background-color: #079aef !important;
     color: #fff;
     border-radius: 10px 10px 0 0 !important;
     overflow: hidden;
@@ -55,14 +55,14 @@ a{
 
 /* ..................Side bar */
 .navbar-vertical .navbar-nav>.nav-item .nav-link.active{
-    background-color: #c40169 !important;
+    background-color: #079aef !important;
 }
 
 /* ..........Customer................ */
 .btn{
     text-transform: capitalize;
     margin-bottom: 0px !important;
-    box-shadow: 1px 1px 4px #fff;
+    box-shadow: 2px 2px 4px #333;
 }
 
 .btn-sm, .btn-group-sm > .btn{

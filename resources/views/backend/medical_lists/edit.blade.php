@@ -11,7 +11,7 @@
                         <h5 class="text-light"><b>Edit Medical List</b></h5>
 
                         <a href="{{ route('medical-lists.index') }}">
-                            <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                            <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                     Back</b></button>
                         </a>
                     </div>
@@ -20,7 +20,8 @@
 
             <div class="col-sm-12">
                 {{-- @include('template/message') --}}
-                <form action="{{ route('medical-lists.update', $medical_list->id) }}" method="POST">
+                <form action="{{ route('medical-lists.update', $medical_list->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -44,14 +45,14 @@
                                     <div class="form-group row">
                                         <label for="qty" class="col-sm-3 m-0 text-end">Quantity:</label>
                                         <div class="col-sm-8">
-                                            <input type="number" class="form-control input-sm" id="qty"
-                                                name="qty" placeholder="Enter Quantity"
-                                                value="{{ $medical_list->qty }}" autocomplete="off">
+                                            <input type="number" class="form-control input-sm" id="total_qty"
+                                                name="total_qty" placeholder="Enter Quantity"
+                                                value="{{ $medical_list->total_qty }}" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 my-1">
+                                {{-- <div class="col-sm-6 my-1">
                                     <div class="form-group row">
                                         <label for="qty" class="col-sm-3 m-0 text-end">Total Quantity:</label>
                                         <div class="col-sm-8">
@@ -60,7 +61,7 @@
                                                 value="{{ $medical_list->total_qty }}" autocomplete="off" disabled>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
@@ -93,7 +94,7 @@
                                     <div class="form-group row">
                                         <label for="category_id" class="col-sm-3 m-0 text-end">Group:</label>
                                         <div class="col-sm-8">
-                                            <select name="category_id" id="category_id" class="myselect form-control">
+                                            <select name="group_id" id="group_id" class="myselect form-control">
                                                 <option>Select Option...</option>
                                                 @foreach ($groups as $group)
                                                     <option value="{{ $group->id }}"
@@ -107,6 +108,17 @@
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
+                                        <label for="original_price" class="col-sm-3 m-0 text-end">Original Price:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-sm" id="original_price"
+                                                name="original_price" value="{{ $medical_list->original_price }}"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
                                         <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control input-sm" id="price"
@@ -114,7 +126,7 @@
                                                 value="{{ $medical_list->price }}" autocomplete="off">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-sm-6 my-1">
                                     <div class="form-group row">
@@ -123,6 +135,16 @@
                                             <input type="date" class="form-control input-sm" id="expired_date"
                                                 name="expired_date" value="{{ $medical_list->expired_date }}"
                                                 autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 my-1">
+                                    <div class="form-group row">
+                                        <label for="photo" class="col-sm-3 m-0 text-end">Photo:</label>
+                                        <div class="col-sm-8">
+                                            <input type="file" class="form-control input-sm" id="photo"
+                                                name="photo">
                                         </div>
                                     </div>
                                 </div>
@@ -163,13 +185,13 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="row">
+                            <div class="row">
                                 @foreach ($medical_list_prices as $medical_list_price)
                                     <input type="hidden" name="medical_list_priceid[]"
                                         value="{{ $medical_list_price->id }}">
 
 
-                                    <div class="col-sm-6 my-1">
+                                    <div class="col-sm-8 offset-sm-2 my-1">
                                         <div class="form-group row">
                                             <label for="price" class="col-sm-3 m-0 text-end">Price:</label>
                                             <div class="col-sm-8">
@@ -180,7 +202,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 my-1">
+                                    {{-- <div class="col-sm-6 my-1">
                                         <div class="form-group row">
                                             <label for="price" class="col-sm-3 m-0 text-end">Unit:</label>
                                             <div class="col-sm-8">
@@ -189,9 +211,9 @@
                                                     autocomplete="off">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endforeach
-                            </div> --}}
+                            </div>
 
                         </div>
                         <div class="card-footer d-flex justify-content-center">

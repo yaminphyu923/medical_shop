@@ -122,6 +122,6 @@ class WarningQuantityController extends Controller
     public function destroy($id)
     {
         WarningQuantity::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back()->with('success','Deleted!');
     }
 }

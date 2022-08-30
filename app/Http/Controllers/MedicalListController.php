@@ -48,14 +48,27 @@ class MedicalListController extends Controller
                                 ->where('category_id','LIKE',$request->choose.'%')
                                 ->get();
             $categories = Category::all();
+            $groups = Group::all();
+            $warning_quantity = WarningQuantity::latest('id')->first();
+        }
+
+        elseif($request->choose_group)
+        {
+            //dd($request->choose);
+            $medicalLists = MedicalList::with('Category','refills')
+                                ->where('group_id','LIKE',$request->choose_group.'%')
+                                ->get();
+            $categories = Category::all();
+            $groups = Group::all();
             $warning_quantity = WarningQuantity::latest('id')->first();
         }
         else{
             $medicalLists = MedicalList::all();
             $categories = Category::all();
+            $groups = Group::all();
             $warning_quantity = WarningQuantity::latest('id')->first();
         }
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByNameAsc(){
@@ -63,8 +76,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortBy('name');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByNameDesc(){
@@ -72,8 +86,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortByDesc('name');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByQtyAsc(){
@@ -81,8 +96,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortBy('total_qty');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByQtyDesc(){
@@ -90,8 +106,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortByDesc('total_qty');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByPriceAsc(){
@@ -99,8 +116,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortBy('price');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByPriceDesc(){
@@ -109,7 +127,7 @@ class MedicalListController extends Controller
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByExpAsc(){
@@ -117,8 +135,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortBy('expired_date');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     public function sortByExpDesc(){
@@ -126,8 +145,9 @@ class MedicalListController extends Controller
         $medicalLists = $medicalList->sortByDesc('expired_date');
         $categories = Category::all();
         $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
 
-        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories'));
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
     }
 
     /**
@@ -168,13 +188,16 @@ class MedicalListController extends Controller
                 $file = $request->file("photo");
                 $filename = time().'_'.$file->getClientOriginalName();
                 $path = public_path('icons/stock_photos');
-                $img = Image::make($file->path());
-                $img->resize(300, 300, function ($const) {
-                $const->aspectRatio();
-                })->save($path.'/'.$filename);
-                $file->move($path,$filename);
+                $file->move($path, $filename);
 
                 $medical_list->photo = $filename;
+                // $img = Image::make($file->path());
+                // $img->resize(300, 300, function ($const) {
+                // $const->aspectRatio();
+                // })->save($path.'/'.$filename);
+                // $file->move($path,$filename);
+
+                // $medical_list->photo = $filename;
             }
             $medical_list->name = $request->name;
             $medical_list->qty = $request->qty;
@@ -182,26 +205,27 @@ class MedicalListController extends Controller
             $medical_list->start_date = $request->start_date;
             $medical_list->category_id = $request->category_id;
             $medical_list->group_id = $request->group_id;
-            $medical_list->price = $request->price;
+            $medical_list->original_price = $request->original_price;
+            // $medical_list->price = $request->price;
             $medical_list->expired_date = $request->expired_date;
             $medical_list->last_remaining = $request->last_remaining;
             $medical_list->last_remaining_qty = $request->last_remaining_qty;
             $medical_list->note = $request->note;
             $medical_list->save();
 
-            // if($medical_list)
-            // {
-            //     for($i=0;$i<count($request['price']);$i++)
-            //     {
-            //         $medical_list_price = new MedicalListPrice;
-            //         $medical_list_price->medical_list_id = $medical_list->id;
-            //         $medical_list_price->price = $request['price'][$i];
-            //         $medical_list_price->unit = $request['unit_id'][$i];
-            //         $medical_list_price->save();
-            //     }
-            // }
+            if($medical_list)
+            {
+                for($i=0;$i<count($request['price']);$i++)
+                {
+                    $medical_list_price = new MedicalListPrice;
+                    $medical_list_price->medical_list_id = $medical_list->id;
+                    $medical_list_price->price = $request['price'][$i];
+                    // $medical_list_price->unit = $request['unit_id'][$i];
+                    $medical_list_price->save();
+                }
+            }
 
-            return redirect()->back()
+            return redirect()->route('medical-lists.index')
                 ->with('success', 'Created successfully!');
         }
         catch (Exception $e){
@@ -278,6 +302,7 @@ class MedicalListController extends Controller
                 return redirect()->back()->with('success', 'Refill Successfully!');
             }else{
                 $medical_list = MedicalList::find($id);
+                // dd($request->file('photo'));
                 if($medical_list->photo != null && $request->file('photo')){
                     if(file_exists(public_path('icons/stock_photos/'.$medical_list->photo))){
 
@@ -290,21 +315,25 @@ class MedicalListController extends Controller
                     $file = $request->file("photo");
                     $filename = time().'_'.$file->getClientOriginalName();
                     $path = public_path('icons/stock_photos');
-                    $img = Image::make($file->path());
-                    $img->resize(300, 300, function ($const) {
-                    $const->aspectRatio();
-                    })->save($path.'/'.$filename);
-                    $file->move($path,$filename);
+                    $file->move($path, $filename);
 
                     $medical_list->photo = $filename;
+                    // $img = Image::make($file->path());
+                    // $img->resize(300, 300, function ($const) {
+                    // $const->aspectRatio();
+                    // })->save($path.'/'.$filename);
+                    // $file->move($path,$filename);
+
+                    // $medical_list->photo = $filename;
                 }
 
                 $medical_list->name = $request->name;
-                $medical_list->qty = $request->qty;
-                // $medical_list->total_qty = $request->total_qty;
+                // $medical_list->qty = $request->qty;
+                $medical_list->total_qty = $request->total_qty;
                 $medical_list->start_date = $request->start_date;
                 $medical_list->category_id = $request->category_id;
                 $medical_list->group_id = $request->group_id;
+                $medical_list->original_price = $request->original_price;
                 $medical_list->price = $request->price;
                 $medical_list->expired_date = $request->expired_date;
                 $medical_list->last_remaining = $request->last_remaining;
@@ -312,18 +341,18 @@ class MedicalListController extends Controller
                 $medical_list->note = $request->note;
                 $medical_list->save();
 
-                // if(isset($request['price'])){
-                //     if(count($request['price'])>0){
-                //         for($i=0;$i<count($request['price']);$i++){
-                //             if(isset($request['medical_list_priceid'][$i])){
-                //                 $additional['price'] = $request['price'][$i];
-                //                 $additional['unit'] = $request['unit_id'][$i];
+                if(isset($request['price'])){
+                    if(count($request['price'])>0){
+                        for($i=0;$i<count($request['price']);$i++){
+                            if(isset($request['medical_list_priceid'][$i])){
+                                $additional['price'] = $request['price'][$i];
+                                // $additional['unit'] = $request['unit_id'][$i];
 
-                //                 $update_additional = MedicalListPrice::where('id',$request['medical_list_priceid'][$i])->update($additional);
-                //             }
-                //         }
-                //     }
-                // }
+                                $update_additional = MedicalListPrice::where('id',$request['medical_list_priceid'][$i])->update($additional);
+                            }
+                        }
+                    }
+                }
 
                 return redirect()->back()->with('success', 'Updated successfully!');
             }
@@ -354,7 +383,7 @@ class MedicalListController extends Controller
         }
 
         MedicalList::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back();
     }
 
     public function refill(Request $request,$id){
@@ -432,8 +461,9 @@ class MedicalListController extends Controller
         $expired_lists = MedicalList::where('expired_date','<=',now())
                                         ->orwhere('expired_date','<=',Carbon::now()->addDays(10))
                                         ->get();
+        $groups = Group::all();
 
-        return view('backend.expired_medical_lists.expired',compact('expired_lists'));
+        return view('backend.expired_medical_lists.expired',compact('expired_lists','groups'));
     }
 
     public function sortByExpListAsc(){
@@ -442,8 +472,9 @@ class MedicalListController extends Controller
                                         ->get();
 
         $expired_lists = $medical_lists->sortBy('expired_date');
+        $groups = Group::all();
 
-        return view('backend.expired_medical_lists.expired',compact('expired_lists'));
+        return view('backend.expired_medical_lists.expired',compact('expired_lists','groups'));
     }
 
     public function sortByExpListDesc(){
@@ -452,8 +483,9 @@ class MedicalListController extends Controller
                                         ->get();
 
         $expired_lists = $medical_lists->sortByDesc('expired_date');
+        $groups = Group::all();
 
-        return view('backend.expired_medical_lists.expired',compact('expired_lists'));
+        return view('backend.expired_medical_lists.expired',compact('expired_lists','groups'));
     }
 
     public function qtyList()
@@ -463,8 +495,9 @@ class MedicalListController extends Controller
         $warning_quantity = WarningQuantity::latest('id')->first();
         $qty_lists = MedicalList::where('total_qty','<=',(int)$warning_quantity->yellow_warning)
                                     ->get();
+        $groups = Group::all();
 
-        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity'));
+        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity','groups'));
     }
 
     public function sortByQtyListAsc(){
@@ -475,8 +508,9 @@ class MedicalListController extends Controller
                                     ->get();
 
         $qty_lists = $medical_lists->sortBy('total_qty');
+        $groups = Group::all();
 
-        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity'));
+        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity','groups'));
     }
 
     public function sortByQtyListDesc(){
@@ -486,8 +520,45 @@ class MedicalListController extends Controller
                                     ->get();
 
         $qty_lists = $medical_lists->sortByDesc('total_qty');
+        $groups = Group::all();
 
-        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity'));
+
+        return view('backend.qty_medical_lists.qty',compact('qty_lists','categories','warning_quantity','groups'));
     }
 
+    public function searchDate(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
+        $medicalLists = MedicalList::whereBetween('start_date', [$from_date, $to_date])->get();
+        $categories = Category::all();
+        $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
+
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
+    }
+
+    public function todaySearch()
+    {
+        $today = Carbon::now();
+        $medicalLists = MedicalList::whereDate('start_date', $today)->get();
+        $categories = Category::all();
+        $groups = Group::all();
+        $warning_quantity = WarningQuantity::latest('id')->first();
+
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
+    }
+
+    public function dateSearch(Request $request)
+    {
+        $date = $request->date;
+        $medicalLists = MedicalList::whereDate('start_date', $date)->get();
+        $categories = Category::all();
+        $warning_quantity = WarningQuantity::latest('id')->first();
+        $groups = Group::all();
+
+        return view('backend.medical_lists.index',compact('medicalLists','warning_quantity','categories','groups'));
+
+    }
 }

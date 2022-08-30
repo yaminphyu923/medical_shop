@@ -1,0 +1,6 @@
+.flex-container {
+    display: flex;
+    justify-content: end;
+    font-weight: bold;
+    margin-top: -20px;
+  }

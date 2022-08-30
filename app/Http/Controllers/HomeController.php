@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         $customer_count = Customer::count();
         $medicallist_count = MedicalList::count();
-        $user_count = User::count();
+        $user_count = User::where('name','!=','MMcities')->count();
         return view('backend.dashboard',compact('customer_count','medicallist_count','user_count'));
     }
 }

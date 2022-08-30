@@ -12,7 +12,7 @@
 
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('groups.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>
                             </a>
                         </div>

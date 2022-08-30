@@ -26,7 +26,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-sm-12 my-1">
+                        <div class="col-sm-12 my-1 py-3">
                             <div class="form-group row">
                                 <label for="name" class="col-sm-3 m-0 text-end">Name:</label>
                                 <div class="col-sm-8">

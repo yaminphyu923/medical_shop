@@ -68,7 +68,7 @@ class CustomerController extends Controller
             $customer->address = $request->address;
             $customer->save();
 
-            return redirect()->back()
+            return redirect()->route('customers.index')
                 ->with('success', 'Created successfully!');
         }
         catch (Exception $e){
@@ -130,7 +130,7 @@ class CustomerController extends Controller
             $customer->address = $request->address;
             $customer->save();
 
-            return redirect()->back()
+            return redirect()->route('customers.index')
                 ->with('success', 'Updated successfully!');
         }
         catch (Exception $e){
@@ -148,6 +148,15 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         Customer::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back()->with('success','Deleted!');
+    }
+
+    public function customerDelete($id)
+    {
+        //dd($id);
+        $customer = Customer::findOrFail($id)->delete();
+        return response()->json([
+            "customer" => $customer,
+        ]);
     }
 }

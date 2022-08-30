@@ -15,7 +15,7 @@ class MedicalListsExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function collection()
     {
         return MedicalList::join('categories','categories.id','=',"medical_lists.category_id")
-                            ->select('medical_lists.name as medical_name','medical_lists.total_qty','medical_lists.start_date','categories.name as category_name','medical_lists.price','medical_lists.expired_date','medical_lists.last_remaining_qty','medical_lists.note')
+                            ->select('medical_lists.name as medical_name','medical_lists.total_qty','medical_lists.start_date','categories.name as category_name','medical_lists.original_price','medical_lists.expired_date','medical_lists.last_remaining_qty','medical_lists.note')
                             ->get();
     }
 
@@ -26,7 +26,8 @@ class MedicalListsExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Total Qty',
             'Start Date',
             'Category',
-            'Price',
+            'Original Price',
+            // 'Price',
             'Expired Date',
             'Last Remaining Qty',
             'Note',

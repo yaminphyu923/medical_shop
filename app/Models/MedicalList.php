@@ -22,6 +22,7 @@ class MedicalList extends Model
         "start_date",
         "category_id",
         "group_id",
+        "original_price",
         "price",
         "unit_id",
         "expired_date",

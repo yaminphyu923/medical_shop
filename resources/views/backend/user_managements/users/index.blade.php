@@ -42,16 +42,26 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('users.show', $user->id) }}"><button type="button"
-                                        class="btn btn-sm btn-primary py-2"><i class="fas fa-eye"></i>
-                                        Detail</button></a>
+                                <div class="d-flex justify-content-start">
+                                    <a href="{{ route('users.show', $user->id) }}"><button type="button"
+                                            class="btn btn-sm btn-primary py-2"><i class="fas fa-eye"></i>
+                                            Detail</button></a>
 
-                                <a href="{{ route('users.edit', $user->id) }}"><button type="button"
-                                        class="btn btn-sm btn-warning py-2"><i class="fas fa-edit"></i>
-                                        Edit</button></a>
+                                    <a href="{{ route('users.edit', $user->id) }}"><button type="button"
+                                            class="btn btn-sm btn-warning py-2"><i class="fas fa-edit"></i>
+                                            Edit</button></a>
 
-                                <button type="button" class="btn btn-sm btn-danger py-2 delete" id="{{ $user->id }}"><i
-                                        class="fas fa-trash"></i>Delete</button>
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger btn-sm" type="submit"><i
+                                                class="fas fa-trash-alt"></i>
+                                            Delete</button>
+                                    </form>
+                                </div>
+
+                                {{-- <button type="button" class="btn btn-sm btn-danger py-2 delete" id="{{ $user->id }}"><i
+                                        class="fas fa-trash"></i>Delete</button> --}}
                             </td>
                         </tr>
                     @endforeach

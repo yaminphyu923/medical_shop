@@ -37,7 +37,7 @@
                             <tr>
                                 <th><b>Email</b></th>
                                 <th>:</th>
-                                <th>{{ $user->email }}</th>
+                                <th style="text-transform: lowercase;">{{ $user->email }}</th>
 
                             </tr>
                             <tr>

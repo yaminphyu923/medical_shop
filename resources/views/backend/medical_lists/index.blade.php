@@ -11,28 +11,29 @@
                         <h5 class="text-light"><b>Medical List</b></h5>
 
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('medical_list_export') }}"><button class="btn btn-sm btn-info"><i
+                            <a href="{{ route('medical_list_export') }}"><button class="btn btn-sm btn-success"><i
                                         class="fas fa-file-excel"></i>
                                     <b>Excel
                                         Export</b></button></a>&nbsp;
-                            <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#total"><i
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#total"><i
                                     class="fas fa-file-excel"></i> <b>Excel
                                     Import</b></button>&nbsp;
 
                             <a href="{{ route('warning-quantities.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-exclamation-circle"></i>
+                                <button type="button" class="btn btn-sm btn-success"><i
+                                        class="fas fa-exclamation-circle"></i>
                                     <b>Warning Qty</b></button>&nbsp;
                             </a>
                             <a href="{{ route('categories.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i>
                                     <b>Category</b></button>&nbsp;
                             </a>
                             <a href="{{ route('groups.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i>
                                     <b>Group</b></button>&nbsp;
                             </a>
                             <a href="{{ route('medical-lists.create') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-plus-circle"></i><b>
+                                <button type="button" class="btn btn-sm btn-success"><i class="fas fa-plus-circle"></i><b>
                                         Create</b></button>
                             </a>
                         </div>
@@ -119,10 +120,10 @@
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-3 m-0 p-0">
                 <div class="form-group row">
-                    <label for="" class="mt-2 col-sm-4 text-end">Choose:</label>
-                    <div class="col-sm-7">
+                    <label for="" class="mt-2 col-sm-5 text-end m-0 p-0">Sort by Category:</label>
+                    <div class="col-sm-6">
                         <select name="choose" id="choose" class="form-control">
                             <option value="">All</option>
                             @foreach ($categories as $category)
@@ -134,6 +135,86 @@
                 </div>
             </div>
 
+            <div class="col-sm-3 m-0 p-0">
+                <div class="form-group row">
+                    <label for="" class="mt-2 col-sm-5 text-end">Sort by Group:</label>
+                    <div class="col-sm-6">
+                        <select name="choose_group" id="choose-group" class="form-control">
+                            <option value="">All</option>
+                            @foreach ($groups as $group)
+                                <option value="{{ $group->id }}" @if ($group->id == request()->choose_group) selected @endif>
+                                    {{ $group->group }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card py-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-8 m-0 p-0">
+                                <form action="{{ route('medical-search-date') }}" method="GET">
+                                    @csrf
+                                    <div class="form-group row">
+                                        <label for="" class="mt-2 col-sm-2 text-end m-0 p-0">From
+                                            Date</label>
+                                        <div class="col-sm-3 m-0 p-0">
+                                            <input type="date" name="from_date" class="form-control"
+                                                value="{{ request()->from_date }}">
+                                        </div>
+                                        <label for="" class="mt-2 col-sm-1 text-end p-0">To Date</label>
+                                        <div class="col-sm-3 m-0 p-0">
+                                            <input type="date" name="to_date" class="form-control"
+                                                value="{{ request()->to_date }}">
+                                        </div>
+                                        <div class="col-sm-2 m-0 p-0">
+                                            <button type="submit" class="btn btn-sm btn-primary"><i
+                                                    class="fas fa-search"></i>
+                                                Search</button>
+
+                                            <a href="{{ route('medical-lists.index') }}"><button type="button"
+                                                    class="btn btn-sm btn-primary"><i
+                                                        class="fas fa-undo"></i></button></a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-sm-1 m-0 p-0">
+                                <a href="{{ route('today-search') }}">
+                                    <button type="button" class="btn btn-sm btn-primary m-0 p-0">Today Drug</button>
+                                </a>
+                            </div>
+
+                            <div class="col-sm-2 m-0 p-0">
+                                <form action="{{ route('date-search') }}" method="GET">
+                                    @csrf
+                                    <div class="form-group row">
+                                        <div class="col-sm-7 m-0 p-0">
+                                            <input type="date" name="date" class="form-control"
+                                                value="{{ request()->date }}">
+                                        </div>
+
+                                        <div class="col-sm-5 m-0 p-0">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                Search Date</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
             <div class="col-sm-12 mt-3">
                 <div class="table-responsive">
                     <table class="datatable table table-strip table-hover">
@@ -141,9 +222,10 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Total Quantity</th>
+                                <th>Quantity</th>
                                 <th>Start Date</th>
                                 <th>Category</th>
+                                <th>Original Price</th>
                                 <th>Price</th>
                                 <th>Expired Date</th>
                                 <th>Last Remaining Stock</th>
@@ -156,14 +238,17 @@
                             {{-- {{ $medicalList->qty <= 50 ? 'bg-warning' : '' }} --}}
                             @foreach ($medicalLists as $medicalList)
                                 <tr
-                                    class="@if ($medicalList->total_qty <= $warning_quantity->yellow_warning && $medicalList->total_qty > $warning_quantity->red_warning) bg-warning @elseif ($medicalList->total_qty <= $warning_quantity->red_warning) bg-danger @elseif ($medicalList->expired_date <= Carbon\Carbon::now()->addDays(10) && $medicalList->expired_date > Carbon\Carbon::now()) bg-yellow @elseif($medicalList->expired_date < Carbon\Carbon::now()) bg-red @endif">
+                                    class="@if ($medicalList->total_qty <= $warning_quantity->yellow_warning &&
+                                        $medicalList->total_qty > $warning_quantity->red_warning) bg-warning @elseif ($medicalList->total_qty <= $warning_quantity->red_warning) bg-danger @elseif ($medicalList->expired_date <= Carbon\Carbon::now()->addDays(10) &&
+                                        $medicalList->expired_date > Carbon\Carbon::now()) bg-yellow @elseif($medicalList->expired_date < Carbon\Carbon::now()) bg-red @endif">
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $medicalList->name }}</td>
-                                    <td>{{ number_format($medicalList->total_qty) }}</td>
+                                    <td>{{ $medicalList->total_qty > 0 ? number_format($medicalList->total_qty) : '0' }}
+                                    </td>
                                     <td>{{ date('M-d-Y', strtotime($medicalList->start_date)) }}</td>
                                     <td>{{ $medicalList->category != null ? $medicalList->category->name : '' }}</td>
-                                    <td></td>
-                                    {{-- <td>{{ number_format($medicalList->price) }}</td> --}}
+                                    <td>{{ number_format((int) $medicalList->original_price) }}</td>
+                                    <td>{{ number_format((int) $medicalList->price) }}</td>
                                     <td>{{ date('M-d-Y', strtotime($medicalList->expired_date)) }}</td>
                                     <td>{{ $medicalList->last_remaining_qty != null ? $medicalList->last_remaining_qty : '0' }}
                                     </td>
@@ -177,20 +262,30 @@
                                     </td>
                                     <td>{{ $medicalList->note }}</td>
                                     <td>
-                                        {{-- <a href="{{ route('refill', $medicalList->id) }}">
+                                        <div class="d-flex justify-content-start">
+                                            {{-- <a href="{{ route('refill', $medicalList->id) }}">
                                             <button type="button" class="btn btn-sm btn-info"><i
                                                     class="fas fa-plus-circle"></i>
                                                 Refill</button>
                                         </a> --}}
-                                        <a href="{{ route('medical-lists.edit', $medicalList->id) }}">
-                                            <button type="button" class="btn btn-sm btn-warning"><i
-                                                    class="fas fa-edit"></i>
-                                                Edit</button>
-                                        </a>
+                                            <a href="{{ route('medical-lists.edit', $medicalList->id) }}">
+                                                <button type="button" class="btn btn-sm btn-warning"><i
+                                                        class="fas fa-edit"></i>
+                                                    Edit</button>
+                                            </a>
 
-                                        <button type="button" class="btn btn-sm btn-danger delete"
+                                            {{-- <button type="button" class="btn btn-sm btn-danger delete"
                                             id="{{ $medicalList->id }}"><i class="fas fa-trash"></i>
-                                            Delete</button>
+                                            Delete</button> --}}
+
+                                            <form action="{{ route('medical-lists.destroy', $medicalList->id) }}"
+                                                method="post">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button class="btn btn-danger btn-sm" type="submit"><i
+                                                        class="fas fa-trash-alt"></i> Delete</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -234,6 +329,12 @@
         $('#choose').change(function() {
             var choose = $('#choose').val();
             history.pushState(null, '', `?choose=${choose}`);
+            window.location.reload();
+        })
+
+        $('#choose-group').change(function() {
+            var choose_group = $('#choose-group').val();
+            history.pushState(null, '', `?choose_group=${choose_group}`);
             window.location.reload();
         })
     </script>

@@ -41,6 +41,8 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::resource('/customers',CustomerController::class);
 
+    Route::get('/customers/delete/{id}',[CustomerController::class,'customerDelete']);
+
     Route::resource('/categories',CategoryController::class);
 
     Route::resource('/medical-lists',MedicalListController::class);
@@ -93,15 +95,51 @@ Route::group(['middleware'=>'auth'],function(){
 
     Route::resource('/orders',OrderController::class);
 
+    Route::get('/add-session-cart/{id}',[OrderController::class,'addSessionCart'])->name('add-session-cart');
+
+    Route::get('/remove-session-cart/{id}',[OrderController::class,'removeSessionCart'])->name('remove-session-cart');
+
+    Route::get('/add-qty/{id}',[OrderController::class,'addQty'])->name('add-qty');
+
     Route::get('/order-lists',[OrderController::class,'orderList'])->name('order-lists');
+
+    Route::get('/order-calculation',[OrderController::class,'orderCalculation'])->name('order-calculation');
+
+    Route::put('/order-update/{id}',[OrderController::class,'orderUpdate'])->name('order-update');
+
+    Route::put('/save-per-update/{id}',[OrderController::class,'savePermanentUpdate'])->name('save-per-update');
 
     Route::get('/search',[OrderController::class,'search'])->name('search');
 
     Route::get('/alpha-search/{alpha}',[OrderController::class,'alphaSearch'])->name('alpha-search');
 
+    Route::get('/cal-index',[OrderController::class,'calIndex'])->name('cal-index');
+
+    Route::get('/cal-search',[OrderController::class,'calSearch'])->name('cal-search');
+
+    Route::get('/cal-alpha-search/{alpha}',[OrderController::class,'calAlphaSearch'])->name('cal-alpha-search');
+
     Route::post('/orders-table',[OrderController::class,'orderTable'])->name('orderTable');
 
     Route::post('/payout',[OrderController::class,'payOut'])->name('payout');
+
+    Route::post('/print',[OrderController::class,'print'])->name('print');
+
+    Route::get('/print-page',[OrderController::class,'printPage'])->name('print-page');
+
+    Route::get('/a4print-page',[OrderController::class,'a4PrintPage'])->name('a4print-page');
+
+    Route::get('/voucher-list',[OrderController::class,'voucherList'])->name('voucher-list');
+
+    Route::get('/note-list',[OrderController::class,'noteList'])->name('note-list');
+
+    Route::get('/debt-list',[OrderController::class,'debtList'])->name('debt-list');
+
+    Route::delete('/orders-delete',[OrderController::class,'delete'])->name('orders.delete');
+
+    Route::get('/checked-delete',[OrderController::class,'checkedDelete'])->name('checked-delete');
+
+    Route::put('/order-updating/{id}',[OrderController::class,'orderUpdating'])->name('order-updating');
 
     Route::resource('users', UserController::class);
 
@@ -112,5 +150,11 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('check-out',[OrderController::class,'checkout'])->name('check-out');
 
     Route::get('/search-date',[OrderController::class,'searchDate'])->name('search-date');
+
+    Route::get('/medical-search-date',[MedicalListController::class,'searchDate'])->name('medical-search-date');
+
+    Route::get('/today-search',[MedicalListController::class,'todaySearch'])->name('today-search');
+
+    Route::get('/date-search',[MedicalListController::class,'dateSearch'])->name('date-search');
 
 });

@@ -55,7 +55,7 @@
                 </a>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <a href="">
+                <a href="{{ route('users.index') }}">
                     <div class="card hover-card">
                         <div class="card-header p-3 pt-2">
                             <div

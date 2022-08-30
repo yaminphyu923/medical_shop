@@ -59,14 +59,23 @@
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $permission->name }}</td>
                             <td>
-                                <a href="{{ route('permissions.edit', $permission->id) }}">
-                                    <button type="button" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i>
-                                        Edit</button>
-                                </a>
+                                <div class="d-flex justify-content-start">
+                                    <a href="{{ route('permissions.edit', $permission->id) }}">
+                                        <button type="button" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i>
+                                            Edit</button>
+                                    </a>
 
-                                <button type="button" class="btn btn-sm btn-danger delete" id="{{ $permission->id }}"><i
+                                    {{-- <button type="button" class="btn btn-sm btn-danger delete" id="{{ $permission->id }}"><i
                                         class="fas fa-trash"></i>
-                                    Delete</button>
+                                    Delete</button> --}}
+                                    <form action="{{ route('permissions.destroy', $permission->id) }}" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger btn-sm" type="submit"><i
+                                                class="fas fa-trash-alt"></i>
+                                            Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

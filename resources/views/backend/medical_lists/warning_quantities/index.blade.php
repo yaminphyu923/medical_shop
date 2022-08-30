@@ -11,12 +11,12 @@
                         <h5 class="text-light"><b>Warning Quantity</b></h5>
 
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"><i class="fas fa-plus-circle"></i>
                                 <b>Create</b></button>&nbsp;
 
                             <a href="{{ route('medical-lists.index') }}">
-                                <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                         Back</b></button>
                             </a>
                         </div>
@@ -79,15 +79,23 @@
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td class="text-warning"><b>{{ $warning_quantity->yellow_warning }}</b></td>
                                     <td class="text-danger"><b>{{ $warning_quantity->red_warning }}</b></td>
-                                    <td>
+                                    <td class="d-flex justify-content-start">
                                         <a href="{{ route('warning-quantities.edit', $warning_quantity->id) }}">
                                             <button type="button" class="btn btn-sm btn-warning"><i
                                                     class="fas fa-edit"></i>
                                                 Edit</button>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-danger delete"
+                                        <form action="{{ route('warning-quantities.destroy', $warning_quantity->id) }}"
+                                            method="post">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button class="btn btn-danger btn-sm" type="submit"><i
+                                                    class="fas fa-trash-alt"></i> Delete</button>
+                                        </form>
+
+                                        {{-- <button type="button" class="btn btn-sm btn-danger delete"
                                             id="{{ $warning_quantity->id }}"><i class="fas fa-trash"></i>
-                                            Delete</button>
+                                            Delete</button> --}}
                                     </td>
                                 </tr>
                             @endforeach

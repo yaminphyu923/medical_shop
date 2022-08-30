@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2022 at 06:27 PM
+-- Generation Time: Aug 24, 2022 at 08:43 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `medical_shop`
+-- Database: `neo`
 --
 
 -- --------------------------------------------------------
@@ -67,7 +67,10 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `phone`, `nrc`, `email`, `age`, `sex`, `address`, `occupation`, `created_at`, `updated_at`) VALUES
-(1, 'John', '09799123123', '12/John(N)123456', 'john@gmail.com', 50, 'male', 'Yangon', NULL, '2022-06-27 15:12:11', '2022-06-27 15:12:11');
+(1, 'John', '09799123123', '12/John(N)123456', 'john@gmail.com', 50, 'male', 'Yangon', NULL, '2022-06-27 15:12:11', '2022-06-27 15:12:11'),
+(4, 'Ma Maw', '09123123', '12/MAW(N)000000', 'maw@gmail.com', 34, 'Female', 'Yangon', NULL, '2022-07-06 05:19:48', '2022-07-06 05:20:53'),
+(9, 'Hnin', '094200000000', '12/HNIN(N)123456', 'hnin@gamil.com', 23, 'Female', 'Ygn', NULL, '2022-08-08 05:14:22', '2022-08-08 05:14:22'),
+(15, 'Tun', '09799147258', '12/TUN(N)123456', 'tun@gmail.com', 30, 'Female', 'Yangon', NULL, '2022-08-22 08:20:35', '2022-08-22 08:20:45');
 
 -- --------------------------------------------------------
 
@@ -88,6 +91,27 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `group` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `group`, `created_at`, `updated_at`) VALUES
+(2, 'Capsule', '2022-07-01 08:33:06', '2022-07-01 08:33:06'),
+(3, 'Pill', '2022-07-01 08:33:13', '2022-07-01 08:33:13');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medical_lists`
 --
 
@@ -99,12 +123,14 @@ CREATE TABLE `medical_lists` (
   `showqty` text COLLATE utf8mb4_unicode_ci DEFAULT '1',
   `start_date` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `original_price` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unit_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `expired_date` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_remaining` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_remaining_qty` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_remaining_qty` text COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `photo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `note` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -115,12 +141,12 @@ CREATE TABLE `medical_lists` (
 -- Dumping data for table `medical_lists`
 --
 
-INSERT INTO `medical_lists` (`id`, `name`, `qty`, `total_qty`, `showqty`, `start_date`, `category_id`, `price`, `unit_id`, `expired_date`, `customer_id`, `last_remaining`, `last_remaining_qty`, `photo`, `note`, `created_at`, `updated_at`) VALUES
-(1, 'Medicine ONe', '50', '80', '1', '2022-06-01', '1', '200', NULL, '2022-07-26', NULL, 'No', NULL, '1656245371_medicine (1).png', 'Lorem', '2022-06-26 12:09:31', '2022-06-26 12:12:46'),
-(2, 'Medicine Two', '50', '70', '1', '2022-06-01', '2', '100', NULL, '2022-07-31', NULL, 'Yes', '5', '1656245433_medicine (2).png', 'Test', '2022-06-26 12:10:33', '2022-06-26 12:12:16'),
-(4, 'Medicine Three', '50', '50', '1', '2022-06-01', '2', '100', NULL, '2022-07-26', NULL, 'No', NULL, '1656246554_medicine (3).png', NULL, '2022-06-26 12:29:14', '2022-06-26 12:29:14'),
-(5, 'Pill', '50', '50', '1', '2022-06-01', '2', '600', NULL, '2022-07-29', NULL, 'Yes', '5', '1656260369_pill.png', 'Note', '2022-06-26 16:19:30', '2022-06-26 16:21:53'),
-(6, 'Capsule', '50', '50', '1', '2022-06-01', '2', '500', NULL, '2022-07-31', NULL, 'Yes', '5', '1656261183_capsules.png', 'Lorem Note', '2022-06-26 16:33:04', '2022-06-26 16:33:04');
+INSERT INTO `medical_lists` (`id`, `name`, `qty`, `total_qty`, `showqty`, `start_date`, `category_id`, `group_id`, `original_price`, `price`, `unit_id`, `expired_date`, `customer_id`, `last_remaining`, `last_remaining_qty`, `photo`, `note`, `created_at`, `updated_at`) VALUES
+(26, 'Capsule', '500', '418', '1', '2022-07-20', '2', '2', '150', '[\"220\",\"250\",\"300\"]', NULL, '2024-07-20', NULL, 'No', NULL, '1658328082_capsules.png', 'remark', '2022-07-20 14:41:22', '2022-08-24 05:50:29'),
+(27, 'Pill', '500', '421', '1', '2022-07-20', '2', '3', '100', NULL, NULL, '2024-07-20', NULL, 'No', NULL, '1658331685_pill.png', NULL, '2022-07-20 15:41:25', '2022-08-23 16:25:03'),
+(28, 'Medicine', '500', '462', '1', '2022-07-20', '2', '3', '100', NULL, NULL, '2024-07-20', NULL, 'No', NULL, '1658331732_medicine.png', NULL, '2022-07-20 15:42:12', '2022-08-24 06:01:39'),
+(34, 'Pill 15', '500', '472', '1', '2022-08-08', '2', '3', '80', NULL, NULL, '2024-08-06', NULL, 'No', NULL, '1659797258_pill15.jpg', NULL, '2022-08-06 14:47:38', '2022-08-24 06:01:38'),
+(38, 'Syrup', '500', '488', '1', '2022-08-22', '1', '2', '100', '[\"150\",\"200\"]', NULL, '2024-08-22', NULL, 'No', NULL, '1661156722_syrup.png', 'note', '2022-08-22 08:25:22', '2022-08-24 06:01:39');
 
 -- --------------------------------------------------------
 
@@ -142,22 +168,27 @@ CREATE TABLE `medical_list_prices` (
 --
 
 INSERT INTO `medical_list_prices` (`id`, `medical_list_id`, `price`, `unit`, `created_at`, `updated_at`) VALUES
-(1, '1', '500', '1', '2022-06-26 12:09:31', '2022-06-26 12:09:31'),
-(2, '1', '1000', '3', '2022-06-26 12:09:31', '2022-06-26 12:09:31'),
-(3, '1', '2000', '5', '2022-06-26 12:09:32', '2022-06-26 12:09:32'),
-(4, '1', '3000', '10', '2022-06-26 12:09:32', '2022-06-26 12:09:32'),
-(5, '1', '4000', '12', '2022-06-26 12:09:32', '2022-06-26 12:09:32'),
-(6, '2', '500', '1', '2022-06-26 12:10:33', '2022-06-26 12:10:33'),
-(7, '2', '1000', '3', '2022-06-26 12:10:34', '2022-06-26 12:10:34'),
-(8, '2', '2000', '5', '2022-06-26 12:10:34', '2022-06-26 12:10:34'),
-(9, '2', '3000', '10', '2022-06-26 12:10:35', '2022-06-26 12:10:35'),
-(10, '2', '4000', '12', '2022-06-26 12:10:35', '2022-06-26 12:10:35'),
-(11, '3', '100', '1', '2022-06-26 12:11:18', '2022-06-26 12:11:18'),
-(12, '3', '200', '3', '2022-06-26 12:11:18', '2022-06-26 12:11:18'),
-(13, '3', '300', '5', '2022-06-26 12:11:19', '2022-06-26 12:11:19'),
-(14, '4', '100', '1', '2022-06-26 12:29:14', '2022-06-26 12:29:14'),
-(15, '4', '200', '3', '2022-06-26 12:29:14', '2022-06-26 12:29:14'),
-(16, '4', '400', '5', '2022-06-26 12:29:15', '2022-06-26 12:29:15');
+(17, '26', '220', NULL, '2022-07-20 14:41:22', '2022-07-20 14:47:12'),
+(18, '26', '250', NULL, '2022-07-20 14:41:22', '2022-07-20 14:47:12'),
+(19, '26', '300', NULL, '2022-07-20 14:41:22', '2022-07-20 14:47:12'),
+(20, '27', '150', NULL, '2022-07-20 15:41:25', '2022-07-20 15:41:25'),
+(21, '27', '160', NULL, '2022-07-20 15:41:25', '2022-07-20 15:41:25'),
+(22, '27', '170', NULL, '2022-07-20 15:41:25', '2022-07-20 15:41:25'),
+(23, '28', '110', NULL, '2022-07-20 15:42:12', '2022-07-20 15:42:12'),
+(24, '28', '120', NULL, '2022-07-20 15:42:12', '2022-07-20 15:42:12'),
+(25, '28', '130', NULL, '2022-07-20 15:42:12', '2022-07-20 15:42:12'),
+(26, '29', '100', NULL, '2022-07-21 16:16:44', '2022-07-21 16:16:44'),
+(27, '30', NULL, NULL, '2022-07-21 16:17:08', '2022-07-21 16:17:08'),
+(28, '31', NULL, NULL, '2022-07-21 16:17:43', '2022-07-21 16:17:43'),
+(29, '32', '100', NULL, '2022-08-05 13:54:30', '2022-08-05 14:27:09'),
+(30, '33', '100', NULL, '2022-08-05 13:55:35', '2022-08-05 13:55:35'),
+(31, '34', '100', NULL, '2022-08-06 14:47:38', '2022-08-06 14:47:38'),
+(32, '34', '200', NULL, '2022-08-06 14:47:38', '2022-08-06 14:47:38'),
+(33, '36', '150', NULL, '2022-08-08 05:45:10', '2022-08-08 09:18:23'),
+(34, '36', '120', NULL, '2022-08-08 05:45:10', '2022-08-08 09:18:23'),
+(35, '38', '150', NULL, '2022-08-22 08:25:22', '2022-08-22 08:27:49'),
+(36, '38', '200', NULL, '2022-08-22 08:25:22', '2022-08-22 08:27:49'),
+(37, '39', NULL, NULL, '2022-08-22 08:28:01', '2022-08-22 08:28:01');
 
 -- --------------------------------------------------------
 
@@ -188,7 +219,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2022_06_19_103627_create_orders_table', 1),
 (11, '2022_06_21_131953_create_permission_tables', 1),
 (12, '2022_06_21_211617_create_units_table', 1),
-(13, '2022_06_25_235251_create_medical_list_prices_table', 1);
+(13, '2022_06_25_235251_create_medical_list_prices_table', 1),
+(14, '2022_07_01_144801_create_groups_table', 2),
+(15, '2022_07_02_212110_create_order_details_table', 3);
 
 -- --------------------------------------------------------
 
@@ -219,7 +252,8 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1);
+(1, 'App\\Models\\User', 5),
+(4, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -229,9 +263,16 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `order` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `voucher` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `quantity` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `medical_list_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qty` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total_amount` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debt_money` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debt` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pay_money` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -240,8 +281,38 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order`, `voucher`, `quantity`, `created_at`, `updated_at`) VALUES
-(7, 'a:1:{i:0;a:17:{s:2:\"id\";s:1:\"5\";s:4:\"name\";s:4:\"Pill\";s:3:\"qty\";s:2:\"50\";s:9:\"total_qty\";s:2:\"50\";s:7:\"showqty\";s:1:\"1\";s:10:\"start_date\";s:10:\"2022-06-01\";s:11:\"category_id\";s:1:\"2\";s:5:\"price\";s:3:\"600\";s:7:\"unit_id\";s:0:\"\";s:12:\"expired_date\";s:10:\"2022-07-29\";s:11:\"customer_id\";s:0:\"\";s:14:\"last_remaining\";s:3:\"Yes\";s:18:\"last_remaining_qty\";s:1:\"5\";s:5:\"photo\";s:19:\"1656260369_pill.png\";s:4:\"note\";s:4:\"Note\";s:10:\"created_at\";s:27:\"2022-06-26T16:19:30.000000Z\";s:10:\"updated_at\";s:27:\"2022-06-26T16:21:53.000000Z\";}}', '1656347161406', 'a:1:{i:0;s:1:\"2\";}', '2022-06-27 16:26:07', '2022-06-27 16:26:07');
+INSERT INTO `orders` (`id`, `voucher`, `medical_list_id`, `price`, `qty`, `total_amount`, `customer_id`, `debt_money`, `debt`, `pay_money`, `status`, `created_at`, `updated_at`) VALUES
+(177, '#238538', NULL, NULL, NULL, NULL, '15', '0', NULL, '840', '0', '2022-08-24 06:01:38', '2022-08-24 06:02:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `medical_list_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `qty` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_id` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `debt_money` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pay_money` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `medical_list_id`, `qty`, `price`, `total`, `customer_id`, `debt_money`, `pay_money`, `status`, `created_at`, `updated_at`) VALUES
+(192, '177', '34', '1', '200', '200', NULL, NULL, NULL, '0', '2022-08-24 06:01:38', '2022-08-24 06:01:38'),
+(193, '177', '38', '2', '200', '400', NULL, NULL, NULL, '0', '2022-08-24 06:01:38', '2022-08-24 06:01:38'),
+(194, '177', '28', '2', '120', '240', '15', NULL, NULL, '0', '2022-08-24 06:01:39', '2022-08-24 06:02:26');
 
 -- --------------------------------------------------------
 
@@ -301,7 +372,8 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (25, 'permission-list', 'web', '2022-06-27 16:09:00', '2022-06-27 16:09:00'),
 (26, 'permission-create', 'web', '2022-06-27 16:09:12', '2022-06-27 16:09:12'),
 (27, 'permission-edit', 'web', '2022-06-27 16:09:22', '2022-06-27 16:09:22'),
-(28, 'permission-delete', 'web', '2022-06-27 16:09:33', '2022-06-27 16:09:33');
+(28, 'permission-delete', 'web', '2022-06-27 16:09:33', '2022-06-27 16:09:33'),
+(31, 'voucher-list', 'web', '2022-08-06 15:36:54', '2022-08-06 15:36:54');
 
 -- --------------------------------------------------------
 
@@ -367,7 +439,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'web', '2022-06-26 16:16:14', '2022-06-26 16:16:14');
+(1, 'Admin', 'web', '2022-06-26 16:16:14', '2022-06-26 16:16:14'),
+(4, 'SuperAdmin', 'web', '2022-08-06 15:42:50', '2022-08-06 15:42:50'),
+(6, 'User', 'web', '2022-08-22 08:31:30', '2022-08-22 08:31:30');
 
 -- --------------------------------------------------------
 
@@ -386,33 +460,65 @@ CREATE TABLE `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
+(1, 4),
+(1, 6),
 (2, 1),
+(2, 4),
+(2, 6),
 (3, 1),
+(3, 4),
 (4, 1),
+(4, 4),
 (5, 1),
+(5, 4),
 (6, 1),
+(6, 4),
 (7, 1),
+(7, 4),
 (8, 1),
+(8, 4),
 (9, 1),
+(9, 4),
 (10, 1),
+(10, 4),
 (11, 1),
+(11, 4),
 (12, 1),
+(12, 4),
 (13, 1),
+(13, 4),
 (14, 1),
+(14, 4),
 (15, 1),
+(15, 4),
 (16, 1),
+(16, 4),
 (17, 1),
+(17, 4),
 (18, 1),
+(18, 4),
 (19, 1),
+(19, 4),
 (20, 1),
+(20, 4),
 (21, 1),
+(21, 4),
 (22, 1),
+(22, 4),
 (23, 1),
+(23, 4),
 (24, 1),
+(24, 4),
 (25, 1),
+(25, 4),
 (26, 1),
+(26, 4),
 (27, 1),
-(28, 1);
+(27, 4),
+(28, 1),
+(28, 4),
+(31, 1),
+(31, 4);
 
 -- --------------------------------------------------------
 
@@ -461,7 +567,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'MMcities', 'mmcities@gmail.com', NULL, '$2y$10$YKaL/jxOu9LRe.8fMT0pYeQ5Ar23VQilZyTwsvUc6Q0RAIW3wbClW', '0', NULL, '2022-06-26 12:04:36', '2022-06-26 16:16:48');
+(1, 'MMcities', 'mmcities@gmail.com', NULL, '$2y$10$8K749W3QeBRv/WbdnCEfFueq.9lkkmhWDKbgv0snlLhItojOaPXea', '0', NULL, '2022-06-26 12:04:36', '2022-08-06 15:43:29'),
+(5, 'Yankin Aung', 'yankinaung@gmail.com', NULL, '$2y$10$23xaYl5JrgjXdOaY.iBkPu84OaiM1qrkoBJOKGkIZMC/NQrie3sfu', '0', NULL, '2022-08-16 15:16:38', '2022-08-16 15:16:38');
 
 -- --------------------------------------------------------
 
@@ -508,6 +615,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `medical_lists`
 --
 ALTER TABLE `medical_lists`
@@ -543,6 +656,12 @@ ALTER TABLE `model_has_roles`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -613,13 +732,13 @@ ALTER TABLE `warning_quantities`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -628,34 +747,46 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `medical_lists`
 --
 ALTER TABLE `medical_lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `medical_list_prices`
 --
 ALTER TABLE `medical_list_prices`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -673,7 +804,7 @@ ALTER TABLE `refills`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `units`
@@ -685,13 +816,13 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `warning_quantities`
 --
 ALTER TABLE `warning_quantities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

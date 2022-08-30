@@ -50,6 +50,7 @@
                     <table class="datatable table table-strip table-hover">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Date</th>
                                 <th>Voucher</th>
                                 <th>Name</th>
@@ -57,22 +58,25 @@
                                 <th>Price</th>
                                 <th>Qty</th>
                                 <th>Total</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($order_details as $order_detail)
                                 <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $order_detail->created_at->format('d-M-Y') }}</td>
                                     <td>{{ $order_detail->order != null ? $order_detail->order->voucher : '' }}</td>
                                     <td>{{ $order_detail->medicalList != null ? $order_detail->medicalList->name : '' }}
                                     </td>
                                     <td>{{ $order_detail->medicalList != null ? Date('d-M-Y', strtotime($order_detail->medicalList->expired_date)) : '' }}
                                     </td>
-                                    <td>{{ $order_detail->medicalList != null ? number_format($order_detail->medicalList->price) : '' }}
+                                    <td>{{ $order_detail->price }}
                                     </td>
                                     <td>{{ $order_detail->qty }}</td>
-                                    <td>{{ number_format((int) $order_detail->qty * (int) $order_detail->medicalList->price) }}
+                                    <td>{{ number_format((int) $order_detail->qty * (int) $order_detail->price) }}
                                     </td>
+
                                 </tr>
                             @endforeach
                         </tbody>

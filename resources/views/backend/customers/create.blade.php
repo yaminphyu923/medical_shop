@@ -11,7 +11,7 @@
                         <h5 class="text-light"><b>Create Cutomer</b></h5>
 
                         <a href="{{ route('customers.index') }}">
-                            <button type="button" class="btn btn-sm btn-info"><i class="fas fa-chevron-left"></i><b>
+                            <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-chevron-left"></i><b>
                                     Back</b></button>
                         </a>
                     </div>
@@ -87,7 +87,7 @@
                                     <div class="form-group row">
                                         <label for="sex" class="col-sm-3 m-0 text-end">Sex:</label>
                                         <div class="col-sm-8">
-                                            <input type="radio" name="sex" id="male" value="male">
+                                            <input type="radio" name="sex" id="male" value="Male">
                                             <label for="male">Male</label>
                                             <input type="radio" name="sex" id="female" value="Female">
                                             <label for="female">Female</label>

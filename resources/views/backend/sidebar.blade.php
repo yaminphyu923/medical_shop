@@ -7,11 +7,16 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
             target="_blank">
             <img src="{{ asset('icons/medicine.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">NEO</span>
+            {{-- ရန်ကင်းအောင် --}}
+            <span class="ms-1 font-weight-bold text-white">NEO</span><br>
+            {{-- <span class="font-weight-bold text-white" style="font-size: 11px;">
+                <small>အထူးကုဆေးခန်းနှင့်အဆင့်မြင့်ရောဂါရှာဖွေရေးစင်တာ</small>
+            </span> --}}
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main"
+        style="height:100vh !important;">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link text-white @yield('dashboard-active')" href="{{ route('dashboard') }}">
@@ -70,6 +75,16 @@
                     <span class="nav-link-text ms-1">Order List</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white @yield('voucherlist-active')" href="{{ route('voucher-list') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Voucher List</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link text-white @yield('usermanagement-active')" href="{{ route('users.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -80,9 +95,5 @@
             </li>
         </ul>
     </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-        <div class="mx-3">
 
-        </div>
-    </div>
 </aside>

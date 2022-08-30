@@ -27,6 +27,28 @@
     <link rel="stylesheet" href="{{ asset('assets/datatable/jquery.dataTables.min.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    {{-- <style>
+        @font-face {
+            font-family: 'Myanmar3';
+            src: local('Myanmar3'), url('https://www.mmwebfonts.com/fonts/myanmar3.ttf')
+        }
+
+        html,
+        body,
+        a,
+        p,
+        span,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        h1#page-title.title {
+            font-family: 'Myanmar3' !important;
+            letter-spacing: 0px
+        }
+    </style> --}}
 </head>
 
 <body class="g-sidenav-show bg-gray-200">

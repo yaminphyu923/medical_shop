@@ -27,7 +27,7 @@ class RolesController extends Controller
 
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where('name','!=','SuperAdmin')->get();
         return view('backend.user_managements.roles.index',compact('roles'));
     }
 
@@ -150,6 +150,7 @@ class RolesController extends Controller
     public function destroy($id)
     {
         DB::table("roles")->where('id',$id)->delete();
-        return 'success';
+        return redirect()->back();
+        // return 'success';
     }
 }

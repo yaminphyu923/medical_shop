@@ -132,6 +132,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::where('id',$id)->delete();
-        return 'success';
+        return redirect()->back()->with('success','Deleted!');
     }
 }
